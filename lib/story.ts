@@ -2,10 +2,10 @@ export const STORY = {
   start: {
     title: "Sealed Dossier",
     beats: [
-      "A record was recovered from the Archive.",
-      "It describes a transformation that cannot be forced—only chosen.",
-      "Verification requires: identity → stability → catalyst.",
-      "Field confirmation is mandatory.",
+      "A protocol surfaced in the Archive, recovered from storage c. 1987. Its provenance is unknown; its structure suggests deliberate concealment.",
+      "It describes a bond so statistically improbable that its formation requires a specific orbital alignment—one that rarely occurs by chance.",
+      "Verification demands systematic proof: structural identity → thermodynamic persistence → mechanistic catalysis → field reproducibility.",
+      "Your background in pericyclic reactions qualifies you uniquely to evaluate whether symmetry constraints support or refute the legend.",
     ],
   },
 intro: {
@@ -74,13 +74,13 @@ intro: {
 
   debrief: {
     title: "Archival Procedure",
-    why: "The Archive does not celebrate. It files, seals, and forgets. The record must be stored before access is granted.",
-    objective: "Generate the summary and follow Lab Archive protocol.",
+    why: "Four independent analytical methods have converged on a consistent structural and mechanistic model. Sample B has been identified through ¹H NMR integration. Thermodynamic stability has been verified under equilibrium conditions and field perturbation. The catalytic mechanism has been resolved. No inconsistencies remain.",
+    objective: "The investigation confirms that all prerequisite constraints are satisfied. However, the model does not predict whether the transformation will occur under ambient conditions. One variable—external to the mechanistic framework—remains unspecified. Access to the sealed repository is authorized.",
   },
 
   finalLock: {
     title: "Sealed Repository",
-    why: "Three verifications produce one authorization. Only a consistent system unlocks the final record.",
-    objective: "Enter the three-part code to access the sealed entry.",
+    why: "All constraints have been satisfied. The system is fully determined. No additional optimization is possible; no further variables remain. What follows is not a choice but a consequence of the evidence already recorded.",
+    objective: "Access requires a three-part verification derived from prior constraints. Identity, stability, and catalytic mechanism are sufficient to determine the code. Enter the values extracted from the sealed protocol.",
   },
 } as const;

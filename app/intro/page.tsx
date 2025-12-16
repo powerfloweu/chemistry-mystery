@@ -39,7 +39,7 @@ export default function IntroPage() {
             </Figure>
 
             <div className="pt-2">
-              <Button className="w-full" type="button" onClick={() => router.push("/station-1-nmr")}>
+              <Button className="w-full" type="button" onClick={() => router.push("/station1")}>
                 Begin the Protocol
               </Button>
             </div>

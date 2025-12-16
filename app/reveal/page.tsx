@@ -22,27 +22,48 @@ export default function Reveal() {
 }
 
 function RevealBody({ onOpenArchive }: { onOpenArchive: () => void }) {
-	const s = useMemo(() => readState(), []);
-	const tokensReady = Boolean(s.token1 && s.token2 && s.token3);
 	return (
-		<div className="space-y-4 text-slate-800">
-			<p className="text-sm">The final record is unlocked. Continue to the Archive to view the materials.</p>
+		<div className="space-y-6 text-slate-800">
+			<div className="space-y-4">
+				<p className="font-semibold">Conclusion</p>
+				
+				<p>All observable parameters have been satisfied.</p>
 
-			<div className="rounded-xl border border-slate-900/10 bg-white/70 p-3 text-sm">
-				<div className="mb-2 text-[11px] uppercase tracking-[0.22em] text-amber-800/80">Readiness</div>
-				<div className="grid grid-cols-2 gap-x-6 gap-y-1 text-slate-700">
-					<div>Token 1</div><div>{s.token1 ? s.token1 : "Missing"}</div>
-					<div>Token 2</div><div>{s.token2 ? s.token2 : "Missing"}</div>
-					<div>Token 3</div><div>{s.token3 ? s.token3 : "Missing"}</div>
-				</div>
-				{!tokensReady ? (
-					<p className="mt-2 text-xs text-amber-900/80">Tokens are missing. Visit each station to generate them before opening the Archive.</p>
-				) : null}
+				<p>The structure is identifiable.<br/>
+				The pathway is energetically accessible.<br/>
+				Environmental perturbations no longer inhibit formation.<br/>
+				Catalytic conditions are present and sufficient.</p>
+
+				<p>Within the limits of the model, the bond can form.</p>
 			</div>
 
-			<Button variant="primary" onClick={onOpenArchive} className="w-full" disabled={!tokensReady} title={!tokensReady ? "Complete stations to generate tokens" : "Open Archive"}>
-				Open Archive
-			</Button>
+			<hr className="border-slate-300/50" />
+
+			<div className="space-y-4">
+				<p>What the archive could never determine<br/>
+				was not the mechanism,<br/>
+				nor the probability,<br/>
+				nor the stability.</p>
+
+				<p>The missing variable was never chemical.</p>
+
+				<p>It cannot be measured, integrated, or derived.<br/>
+				It cannot be forced.<br/>
+				It cannot be predicted.</p>
+			</div>
+
+			<hr className="border-slate-300/50" />
+
+			<div className="space-y-4">
+				<p>At this point, the system leaves theory.</p>
+
+				<p>No further calculations apply.</p>
+
+				<p>The final step requires a condition<br/>
+				that only one participant can supply.</p>
+
+				<p>Proceeding beyond this point is optional.</p>
+			</div>
 		</div>
 	);
 }

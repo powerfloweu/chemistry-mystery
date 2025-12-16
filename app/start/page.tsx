@@ -97,24 +97,34 @@ export default function StartPage() {
   };
 
   return (
-    <BasicShell title="Sealed Dossier" subtitle="Unauthorized disclosure is prohibited">
+    <BasicShell title="Sealed Dossier" subtitle="Classified Record | Archive Access Portal">
       <div className="space-y-5 animate-fadeIn">
         {!started ? (
           <>
+            <div className="mb-6 text-center space-y-2">
+              <p className="text-xs font-semibold text-slate-700 tracking-widest uppercase">
+                Certificate of Access
+              </p>
+              <p className="text-sm text-slate-700/75 italic">
+                A bond has been reported—rare, symmetric, theoretically forbidden. 
+                The evidence remains sealed pending investigator clearance.
+              </p>
+            </div>
+
             <Folio
-              label="IDENTIFICATION"
-              title="Investigator Identification"
-              note="To open the record, enter the investigator name."
+              label="AUTHENTICATION"
+              title="Investigator Clearance"
+              note="Enter your name to authorize record access."
             >
               <div className="relative">
                 <div className="pointer-events-none absolute -right-4 -top-8 z-30 overflow-visible animate-fadeIn">
                   <WaxSeal open={started} label="SEALED" />
                 </div>
 
-                <Figure caption="Authentication field (local device only)">
+                <Figure caption="Investigator authentication (local encryption)">
                   <div className="space-y-3">
                     <label className="text-xs font-semibold tracking-wide text-slate-800/80">
-                      Investigator
+                      Registered Investigator Name
                     </label>
                     <input
                       value={name}
@@ -123,7 +133,7 @@ export default function StartPage() {
                       className="w-full rounded-2xl border border-slate-900/15 bg-white/70 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                     />
                     <p className="text-xs text-slate-700/70">
-                      (Used only for personalization on this device.)
+                      (Persistent on this device only. Required for record segregation.)
                     </p>
 
                     <div className="pt-1">
@@ -154,8 +164,8 @@ export default function StartPage() {
                   </Button>
                 </div>
 
-                <p className="mt-4 text-xs text-slate-700/60">
-                  Note: the system will not reveal the final objective in advance.
+                <p className="mt-4 text-xs text-slate-700/60 border-l-2 border-amber-700/40 pl-3">
+                  <span className="font-semibold">Archive Protocol:</span> The final objective remains sealed. You will proceed by evidence only.
                 </p>
               </div>
             </Folio>
@@ -163,15 +173,15 @@ export default function StartPage() {
         ) : (
           <>
             <Folio
-              label="LOG ENTRY"
-              title="Recovered Archive Entry"
-              note="This interface is procedural by design. No hints beyond the protocol."
+              label="CLEARANCE LOG"
+              title="Archive Authorization"
+              note="System access initialized. Retrieving sealed records..."
             >
-              <Figure caption="Recovered access transcript">
+              <Figure caption="Verified investigator session transcript">
                 <div className="font-mono text-[13px] leading-relaxed text-slate-900">
                   {out.map((l, i) => (
                     <div key={i} className="whitespace-pre-wrap">
-                      <span className="text-emerald-900/70 mr-2">▸</span>
+                      <span className="text-emerald-900/70 mr-2">→</span>
                       {l}
                       {i === out.length - 1 && !done ? (
                         <span className="inline-block w-[8px] ml-1 animate-pulse">▍</span>

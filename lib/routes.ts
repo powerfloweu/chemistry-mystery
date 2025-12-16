@@ -1,9 +1,9 @@
 export const ROUTES = {
   start: "/start",
-  s1: "/station-1-nmr",
-  s2: "/station-2-reaction",
-  s3: "/station-3-forest",
-  s4: "/station-4-catalyst",
+  s1: "/station1",
+  s2: "/station2",
+  s3: "/station3",
+  s4: "/station4",
   debrief: "/debrief",
   archive: "/archive",
   final: "/final-lock",

@@ -14,6 +14,8 @@ export default function Station2Reaction() {
   const choose = (which: "kinetic" | "thermo") => {
     if (which !== "thermo") return;
     setToken("token2", "8");
+    setToken("s2_productOk", true);
+    setToken("s2_conditionOk", true);
     router.push(ROUTES.s3);
   };
 
@@ -24,20 +26,36 @@ export default function Station2Reaction() {
           <LogLine>
             Sample B was subjected to controlled conditions. Two competing outcomes were observed.
           </LogLine>
+
+          <div className="rounded-lg border border-amber-700/30 bg-amber-50/40 p-4 space-y-3">
+            <div className="text-sm text-slate-700 space-y-2">
+              <p className="font-semibold text-slate-800">The Controversy</p>
+              <p>
+                Early literature disagreed sharply: does a transformation succeed because it forms quickly, or because it persists? Some researchers optimized for speed—the lowest activation barrier. Others waited. They found that fast pathways often led to products that degraded or rearranged over time.
+              </p>
+              <p>
+                The critical insight: <span className="font-semibold">endurance matters more than velocity</span>. A product that forms slowly but remains stable indefinitely proves more valuable than one that appears instantly but decomposes under ambient conditions. In the sealed archive, only stable outcomes were recorded.
+              </p>
+              <p>
+                Your task: determine which product the system chooses when allowed unlimited time to reach true equilibrium.
+              </p>
+            </div>
+          </div>
+
           <LogLine>
-            Long-term behavior depends on energetic favorability, not formation speed.
+            Long-term behavior depends on free energy, not activation barrier. Choose the stable outcome.
           </LogLine>
 
           <StoryCard
-            title="Station 2 — Reaction Coordinate"
-            objective="Identify the product that dominates when the system is allowed to equilibrate."
-            why="Equilibrium control reveals the thermodynamic product, validating energetic analysis."
+            title="Station 2 — Reaction Coordinate & Stability"
+            objective="Distinguish the kinetically favored product (fastest formation) from the thermodynamic product (most stable at equilibrium). Choose the one that persists."
+            why="Under infinite time, only the thermodynamic product survives. Early pathways matter only if they lead to endurance, not speed."
             procedure={[
-              "Inspect the reaction coordinate diagram.",
-              "Compare activation barriers and final free energies.",
-              "Select the product favored at equilibrium.",
+              "Examine the reaction coordinate diagram.",
+              "Identify which barrier is lower (kinetic product) and which final state has lower energy (thermodynamic product).",
+              "Select the product that prevails if the system is allowed to equilibrate at constant temperature.",
             ]}
-            hint="At equilibrium, the lowest ΔG° product dominates — not the one formed fastest."
+            hint="Activation barriers determine timing. Free energy (ΔG°) determines the final answer. At equilibrium, ΔG° rules."
           >
             <div className="space-y-4">
               <div style={{ borderRadius: 8, border: '1px solid rgba(0,0,0,0.06)', background: 'rgba(255,255,255,0.4)', padding: 12, fontSize: 14, color: 'rgba(var(--ink),0.8)' }}>
@@ -50,7 +68,7 @@ export default function Station2Reaction() {
               </div>
 
               <p style={{ fontSize: 14, color: 'rgba(var(--ink),0.75)' }}>
-                If the system is not at equilibrium, re-evaluate the diagram.
+                Selecting the kinetic product will fail validation. The archive only records what survives indefinitely.
               </p>
             </div>
           </StoryCard>
