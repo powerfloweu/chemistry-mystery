@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Guard, BasicShell } from "../components/Guard";
-import Folio from "../components/ui/Folio";
-import Figure from "../components/ui/Figure";
-import { Button } from "../components/ui/Button";
-import { STORY } from "../lib/story";
+import { Guard, BasicShell } from "../../components/Guard";
+import Folio from "../../components/ui/Folio";
+import Figure from "../../components/ui/Figure";
+import { Button } from "../../components/ui/Button";
+import { STORY } from "../../lib/story";
 
 export default function IntroPage() {
   const router = useRouter();
