@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Guard, BasicShell } from "../../src/components/Guard";
-import { setToken } from "../../src/lib/gameStore";
-import { ROUTES } from "../../src/lib/routes";
-import { StoryCard } from "../../src/components/ui/StoryCard";
-import { LogLine } from "../../src/components/ui/LogLine";
-import { Button } from "../../src/components/ui/Button";
+import { Guard, BasicShell } from "../../components/Guard";
+import { setToken } from "../../lib/gameStore";
+import { ROUTES } from "../../lib/routes";
+import { StoryCard } from "../../components/ui/StoryCard";
+import { LogLine } from "../../components/ui/LogLine";
+import { Button } from "../../components/ui/Button";
 
 export default function Station2Reaction() {
   const router = useRouter();

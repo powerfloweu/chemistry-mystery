@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BasicShell } from "../../src/components/Guard";
-import { PeakPicker } from "../../src/components/PeakPicker";
-import { validateNmrIntegrals } from "../../src/lib/validate";
-import { setToken } from "../../src/lib/gameStore";
-import { StoryCard } from "../../src/components/ui/StoryCard";
-import { Button } from "../../src/components/ui/Button";
-import { LogLine } from "../../src/components/ui/LogLine";
+import { BasicShell } from "../../components/Guard";
+import { PeakPicker } from "../../components/PeakPicker";
+import { validateNmrIntegrals } from "../../lib/validate";
+import { setToken } from "../../lib/gameStore";
+import { StoryCard } from "../../components/ui/StoryCard";
+import { Button } from "../../components/ui/Button";
+import { LogLine } from "../../components/ui/LogLine";
 
 export default function Station1() {
   const router = useRouter();

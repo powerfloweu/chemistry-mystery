@@ -1,11 +1,11 @@
 "use client";
 
-import { Guard, BasicShell } from "../../src/components/Guard";
+import { Guard, BasicShell } from "../../components/Guard";
 import { useRouter } from "next/navigation";
-import { ROUTES } from "../../src/lib/routes";
-import { StoryCard } from "../../src/components/ui/StoryCard";
-import { LogLine } from "../../src/components/ui/LogLine";
-import { Button } from "../../src/components/ui/Button";
+import { ROUTES } from "../../lib/routes";
+import { StoryCard } from "../../components/ui/StoryCard";
+import { LogLine } from "../../components/ui/LogLine";
+import { Button } from "../../components/ui/Button";
 
 export default function Station3Forest() {
   const router = useRouter();
