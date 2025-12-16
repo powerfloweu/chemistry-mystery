@@ -1,0 +1,268 @@
+
+> chemistry-mystery@0.1.0 dev
+> next dev
+
+   ▲ Next.js 16.0.10 (Turbopack)
+   - Local:         http://localhost:3000
+   - Network:       http://192.168.1.6:3000
+
+ ✓ Starting...
+ ✓ Ready in 388ms
+ GET /start 200 in 763ms (compile: 712ms, render: 51ms)
+ GET /start 200 in 55ms (compile: 13ms, render: 43ms)
+ ⨯ ./app/station-1-nmr/page.tsx:14:1
+Module not found: Can't resolve '@/components/ui/Figure'
+[0m [90m 12 |[39m [36mimport[39m [33mTypewriterBlock[39m [36mfrom[39m [32m"@/components/ui/Typewriter"[39m[33m;[39m
+ [90m 13 |[39m [36mimport[39m [33mFolio[39m [36mfrom[39m [32m"@/components/ui/Folio"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 14 |[39m [36mimport[39m [33mFigure[39m [36mfrom[39m [32m"@/components/ui/Figure"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 15 |[39m
+ [90m 16 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mStation1Nmr[39m() {
+ [90m 17 |[39m   [36mconst[39m router [33m=[39m useRouter()[33m;[39m[0m
+
+Import map: aliased to relative './components/ui/Figure' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/station-1-nmr/page.tsx:10:1
+Module not found: Can't resolve '@/components/ui/StoryCard'
+[0m [90m  8 |[39m [36mimport[39m { setToken[33m,[39m setField } [36mfrom[39m [32m"../../lib/gameStore"[39m[33m;[39m
+ [90m  9 |[39m [36mimport[39m { [33mROUTES[39m } [36mfrom[39m [32m"../../lib/routes"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 10 |[39m [36mimport[39m { [33mStoryCard[39m } [36mfrom[39m [32m"@/components/ui/StoryCard"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 11 |[39m [36mimport[39m { [33mSTORY[39m } [36mfrom[39m [32m"@/lib/story"[39m[33m;[39m
+ [90m 12 |[39m [36mimport[39m [33mTypewriterBlock[39m [36mfrom[39m [32m"@/components/ui/Typewriter"[39m[33m;[39m
+ [90m 13 |[39m [36mimport[39m [33mFolio[39m [36mfrom[39m [32m"@/components/ui/Folio"[39m[33m;[39m[0m
+
+Import map: aliased to relative './components/ui/StoryCard' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/station-1-nmr/page.tsx:12:1
+Module not found: Can't resolve '@/components/ui/Typewriter'
+[0m [90m 10 |[39m [36mimport[39m { [33mStoryCard[39m } [36mfrom[39m [32m"@/components/ui/StoryCard"[39m[33m;[39m
+ [90m 11 |[39m [36mimport[39m { [33mSTORY[39m } [36mfrom[39m [32m"@/lib/story"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 12 |[39m [36mimport[39m [33mTypewriterBlock[39m [36mfrom[39m [32m"@/components/ui/Typewriter"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 13 |[39m [36mimport[39m [33mFolio[39m [36mfrom[39m [32m"@/components/ui/Folio"[39m[33m;[39m
+ [90m 14 |[39m [36mimport[39m [33mFigure[39m [36mfrom[39m [32m"@/components/ui/Figure"[39m[33m;[39m
+ [90m 15 |[39m[0m
+
+Import map: aliased to relative './components/ui/Typewriter' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/station-1-nmr/page.tsx:6:1
+Export PeakPicker doesn't exist in target module
+[0m [90m 4 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mGuard[39m[33m,[39m [33mBasicShell[39m } [36mfrom[39m [32m"../../components/Guard"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 6 |[39m [36mimport[39m { [33mPeakPicker[39m } [36mfrom[39m [32m"../../components/PeakPicker"[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 7 |[39m [36mimport[39m { validateNmrIntegrals[33m,[39m validateS1Identity } [36mfrom[39m [32m"../../lib/validate"[39m[33m;[39m
+ [90m 8 |[39m [36mimport[39m { setToken[33m,[39m setField } [36mfrom[39m [32m"../../lib/gameStore"[39m[33m;[39m
+ [90m 9 |[39m [36mimport[39m { [33mROUTES[39m } [36mfrom[39m [32m"../../lib/routes"[39m[33m;[39m[0m
+
+The export PeakPicker was not found in module [project]/components/PeakPicker.tsx [app-client] (ecmascript).
+Did you mean to import default?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+
+
+./app/station-1-nmr/page.tsx:6:1
+Export PeakPicker doesn't exist in target module
+[0m [90m 4 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mGuard[39m[33m,[39m [33mBasicShell[39m } [36mfrom[39m [32m"../../components/Guard"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 6 |[39m [36mimport[39m { [33mPeakPicker[39m } [36mfrom[39m [32m"../../components/PeakPicker"[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 7 |[39m [36mimport[39m { validateNmrIntegrals[33m,[39m validateS1Identity } [36mfrom[39m [32m"../../lib/validate"[39m[33m;[39m
+ [90m 8 |[39m [36mimport[39m { setToken[33m,[39m setField } [36mfrom[39m [32m"../../lib/gameStore"[39m[33m;[39m
+ [90m 9 |[39m [36mimport[39m { [33mROUTES[39m } [36mfrom[39m [32m"../../lib/routes"[39m[33m;[39m[0m
+
+The export PeakPicker was not found in module [project]/components/PeakPicker.tsx [app-ssr] (ecmascript).
+Did you mean to import default?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+
+ GET /station-1-nmr 500 in 824ms (compile: 757ms, render: 67ms)
+ ⨯ ./app/station-1-nmr/page.tsx:14:1
+Module not found: Can't resolve '@/components/ui/Figure'
+[0m [90m 12 |[39m [36mimport[39m [33mTypewriterBlock[39m [36mfrom[39m [32m"@/components/ui/Typewriter"[39m[33m;[39m
+ [90m 13 |[39m [36mimport[39m [33mFolio[39m [36mfrom[39m [32m"@/components/ui/Folio"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 14 |[39m [36mimport[39m [33mFigure[39m [36mfrom[39m [32m"@/components/ui/Figure"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 15 |[39m
+ [90m 16 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mStation1Nmr[39m() {
+ [90m 17 |[39m   [36mconst[39m router [33m=[39m useRouter()[33m;[39m[0m
+
+Import map: aliased to relative './components/ui/Figure' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/station-1-nmr/page.tsx:10:1
+Module not found: Can't resolve '@/components/ui/StoryCard'
+[0m [90m  8 |[39m [36mimport[39m { setToken[33m,[39m setField } [36mfrom[39m [32m"../../lib/gameStore"[39m[33m;[39m
+ [90m  9 |[39m [36mimport[39m { [33mROUTES[39m } [36mfrom[39m [32m"../../lib/routes"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 10 |[39m [36mimport[39m { [33mStoryCard[39m } [36mfrom[39m [32m"@/components/ui/StoryCard"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 11 |[39m [36mimport[39m { [33mSTORY[39m } [36mfrom[39m [32m"@/lib/story"[39m[33m;[39m
+ [90m 12 |[39m [36mimport[39m [33mTypewriterBlock[39m [36mfrom[39m [32m"@/components/ui/Typewriter"[39m[33m;[39m
+ [90m 13 |[39m [36mimport[39m [33mFolio[39m [36mfrom[39m [32m"@/components/ui/Folio"[39m[33m;[39m[0m
+
+Import map: aliased to relative './components/ui/StoryCard' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/station-1-nmr/page.tsx:12:1
+Module not found: Can't resolve '@/components/ui/Typewriter'
+[0m [90m 10 |[39m [36mimport[39m { [33mStoryCard[39m } [36mfrom[39m [32m"@/components/ui/StoryCard"[39m[33m;[39m
+ [90m 11 |[39m [36mimport[39m { [33mSTORY[39m } [36mfrom[39m [32m"@/lib/story"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 12 |[39m [36mimport[39m [33mTypewriterBlock[39m [36mfrom[39m [32m"@/components/ui/Typewriter"[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 13 |[39m [36mimport[39m [33mFolio[39m [36mfrom[39m [32m"@/components/ui/Folio"[39m[33m;[39m
+ [90m 14 |[39m [36mimport[39m [33mFigure[39m [36mfrom[39m [32m"@/components/ui/Figure"[39m[33m;[39m
+ [90m 15 |[39m[0m
+
+Import map: aliased to relative './components/ui/Typewriter' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/station-1-nmr/page.tsx:6:1
+Export PeakPicker doesn't exist in target module
+[0m [90m 4 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mGuard[39m[33m,[39m [33mBasicShell[39m } [36mfrom[39m [32m"../../components/Guard"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 6 |[39m [36mimport[39m { [33mPeakPicker[39m } [36mfrom[39m [32m"../../components/PeakPicker"[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 7 |[39m [36mimport[39m { validateNmrIntegrals[33m,[39m validateS1Identity } [36mfrom[39m [32m"../../lib/validate"[39m[33m;[39m
+ [90m 8 |[39m [36mimport[39m { setToken[33m,[39m setField } [36mfrom[39m [32m"../../lib/gameStore"[39m[33m;[39m
+ [90m 9 |[39m [36mimport[39m { [33mROUTES[39m } [36mfrom[39m [32m"../../lib/routes"[39m[33m;[39m[0m
+
+The export PeakPicker was not found in module [project]/components/PeakPicker.tsx [app-client] (ecmascript).
+Did you mean to import default?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+
+
+./app/station-1-nmr/page.tsx:6:1
+Export PeakPicker doesn't exist in target module
+[0m [90m 4 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mGuard[39m[33m,[39m [33mBasicShell[39m } [36mfrom[39m [32m"../../components/Guard"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 6 |[39m [36mimport[39m { [33mPeakPicker[39m } [36mfrom[39m [32m"../../components/PeakPicker"[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 7 |[39m [36mimport[39m { validateNmrIntegrals[33m,[39m validateS1Identity } [36mfrom[39m [32m"../../lib/validate"[39m[33m;[39m
+ [90m 8 |[39m [36mimport[39m { setToken[33m,[39m setField } [36mfrom[39m [32m"../../lib/gameStore"[39m[33m;[39m
+ [90m 9 |[39m [36mimport[39m { [33mROUTES[39m } [36mfrom[39m [32m"../../lib/routes"[39m[33m;[39m[0m
+
+The export PeakPicker was not found in module [project]/components/PeakPicker.tsx [app-ssr] (ecmascript).
+Did you mean to import default?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./app/station-1-nmr/page.tsx [Client Component Browser]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/station-1-nmr/page.tsx [Client Component SSR]
+    ./app/station-1-nmr/page.tsx [Server Component]
+
+
+ GET /station-1-nmr 500 in 16ms (compile: 12ms, render: 4ms)

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="sky2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#b19cd9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffe8b6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky2)"/>
+  
+  <!-- Forest field work -->
+  <rect x="0" y="350" width="1200" height="450" fill="#2d5016"/>
+  
+  <!-- Trees -->
+  <g id="tree" transform="translate(150, 380)">
+    <rect x="-15" y="0" width="30" height="80" fill="#8b4513"/>
+    <polygon points="0,-60 -60,40 60,40" fill="#228b22"/>
+  </g>
+  <use href="#tree" x="200" y="0"/>
+  <use href="#tree" x="400" y="20"/>
+  <use href="#tree" x="600" y="-30"/>
+  <use href="#tree" x="800" y="10"/>
+  <use href="#tree" x="1000" y="-20"/>
+  
+  <!-- Field marker posts -->
+  <rect x="300" y="500" width="8" height="150" fill="#d2691e" stroke="#333" stroke-width="2"/>
+  <circle cx="304" cy="490" r="12" fill="#ff4500"/>
+  
+  <rect x="900" y="520" width="8" height="130" fill="#d2691e" stroke="#333" stroke-width="2"/>
+  <circle cx="904" cy="510" r="12" fill="#ff4500"/>
+  
+  <!-- Labels -->
+  <text x="600" y="100" text-anchor="middle" font-size="28" fill="#fffacd" font-weight="bold">Field Perturbation Analysis</text>
+  <text x="600" y="150" text-anchor="middle" font-size="18" fill="#fffacd">Observing environmental impact on reaction yield</text>
+  
+  <!-- Path markers -->
+  <circle cx="200" cy="550" r="20" fill="none" stroke="#ffff00" stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="200" y="710" text-anchor="middle" font-size="16" fill="#ffff00" font-weight="bold">LEFT Path</text>
+  
+  <circle cx="600" cy="600" r="20" fill="none" stroke="#00ff00" stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="600" y="730" text-anchor="middle" font-size="16" fill="#00ff00" font-weight="bold">STRAIGHT Path</text>
+  
+  <circle cx="1000" cy="570" r="20" fill="none" stroke="#ff69b4" stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="1000" y="720" text-anchor="middle" font-size="16" fill="#ff69b4" font-weight="bold">RIGHT Path</text>
+</svg>
