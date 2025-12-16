@@ -31,6 +31,7 @@ export default function Station2Reaction() {
           <StoryCard
             title="Station 2 — Reaction Coordinate"
             objective="Identify the product that dominates when the system is allowed to equilibrate."
+            why="Equilibrium control reveals the thermodynamic product, validating energetic analysis."
             procedure={[
               "Inspect the reaction coordinate diagram.",
               "Compare activation barriers and final free energies.",

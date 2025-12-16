@@ -22,6 +22,7 @@ export default function Station3Forest() {
           <StoryCard
             title="Station 3 — Selectivity in the Field"
             objective="Confirm predicted selectivity by applying Le Châtelier’s principle in a physical environment."
+            why="Field perturbations test robustness of selectivity predictions under non-ideal conditions."
             procedure={[
               "Proceed to the designated outdoor location with the tablet.",
               "At each fork, predict the equilibrium shift caused by the perturbation shown.",

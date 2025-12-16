@@ -35,6 +35,7 @@ export default function Station1() {
         <StoryCard
           title="Station 1 — ¹H NMR Integration"
           objective="Determine the integral pattern in increasing δ order and confirm Sample B is the correct target."
+          why="Accurate integration confirms molecular stoichiometry and supports identity verification."
           procedure={[
             "Observe the spectrum (static image).",
             "Select the integral (1H/2H/3H) for each signal in increasing δ order.",

@@ -31,6 +31,7 @@ export default function Station4Catalyst() {
           <StoryCard
             title="Station 4 — Catalysis"
             objective="Identify the species present in every step but absent from the net reaction."
+            why="Catalysts lower activation barriers and are regenerated; identifying them confirms mechanism."
             procedure={[
               "Inspect the full reaction mechanism.",
               "Track species that appear and disappear during the sequence.",
