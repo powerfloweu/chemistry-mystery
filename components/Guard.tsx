@@ -1,5 +1,6 @@
 "use client";
 
+import { WaxSealButton } from "@/components/ui/WaxSealButton";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { readState, GameState } from "../lib/gameStore";
@@ -29,10 +30,12 @@ export function Guard({ require = [], children }: GuardProps) {
 export function BasicShell({
   title,
   subtitle,
+  description,
   children,
 }: {
   title: string;
   subtitle?: string;
+  description?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -68,24 +71,25 @@ export function BasicShell({
 
           <div className="relative px-8 py-10 sm:px-12 sm:py-14">
             <header className="text-center space-y-3 mb-8">
-              <div className="text-xs uppercase tracking-[0.3em] font-semibold opacity-70">
-                Sealed Dossier
-              </div>
+              {subtitle ? (
+                <div className="text-xs uppercase tracking-[0.3em] font-semibold opacity-70">
+                  {subtitle}
+                </div>
+              ) : null}
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ 
-                fontFamily: 'Georgia, serif',
-                color: 'rgb(var(--ink))'
+                fontFamily: 'Georgia, "Times New Roman", serif',
+                color: '#b68a2c',
+                letterSpacing: '0.04em',
+                textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+                transform: 'rotate(-1deg)',
+                display: 'inline-block'
               }}>
                 {title}
               </h1>
-              {subtitle ? (
-                <div className="mt-2">
-                  <div className="text-xs uppercase tracking-[0.25em] font-medium opacity-60 mb-1">
-                    Identification
-                  </div>
-                  <p className="text-sm italic opacity-80">
-                    {subtitle}
-                  </p>
-                </div>
+              {description ? (
+                <p className="text-sm italic opacity-80 mt-2">
+                  {description}
+                </p>
               ) : null}
               <div 
                 className="h-px w-full mt-4"
@@ -98,7 +102,7 @@ export function BasicShell({
             <section>{children}</section>
 
             <footer className="mt-10 pt-6 border-t border-black/10 text-center text-xs opacity-60">
-              Bond Stability Analysis • Field Notes Interface
+              Field Notes Interface
             </footer>
           </div>
         </div>

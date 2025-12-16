@@ -47,7 +47,7 @@ export default function Station3Forest() {
 
                 <div className="space-y-3">
                   <label className="text-xs font-medium">Enter field confirmation code</label>
-                  <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="e.g. L-3" className="w-full rounded-xl border px-4 py-3 text-sm bg-white/60" />
+                  <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="e.g. L-3" className="w-full rounded-xl border px-4 py-3 text-sm bg-white" />
                   {feedback ? <div className="text-sm text-slate-700">{feedback}</div> : null}
                   <Button variant="ghost" onClick={submitCode}>Submit Code</Button>
                 </div>

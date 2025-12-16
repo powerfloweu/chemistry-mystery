@@ -23,14 +23,14 @@ export function StoryCard({
     <div
       className={`relative rounded-lg overflow-hidden ${className}`}
       style={{
-        background: 'linear-gradient(135deg, rgba(var(--dossier-gold), 0.4) 0%, rgba(var(--dossier-gold), 0.25) 100%)',
+        background: 'linear-gradient(135deg, rgba(var(--dossier-gold), 0.35) 0%, rgba(var(--dossier-gold), 0.2) 100%)',
         border: '2px solid rgba(var(--dossier-gold), 0.5)',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.15), inset 0 1px 3px rgba(255,255,255,0.3)'
+        boxShadow: '0 4px 16px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.25)'
       }}
     >
-      {/* Decorative header */}
+      {/* Header */}
       <div 
-        className="relative px-5 py-4 border-b-2"
+        className="relative px-6 py-4 border-b-2"
         style={{
           background: 'linear-gradient(180deg, rgba(var(--parchment), 0.95), rgba(var(--parchment-dark), 0.9))',
           borderColor: 'rgba(var(--dossier-gold), 0.6)'
@@ -38,19 +38,26 @@ export function StoryCard({
       >
         <div className="text-center">
           <div 
-            className="inline-block text-[10px] uppercase tracking-[0.3em] font-semibold px-3 py-1 rounded"
+            className="inline-block px-3 py-1 rounded"
             style={{
-              background: 'rgba(var(--dossier-gold), 0.2)',
-              color: 'rgb(var(--gold-deep))'
+              fontSize: 'var(--text-xs)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              fontWeight: 600,
+              background: 'rgba(var(--dossier-gold), 0.25)',
+              color: 'rgb(120 72 0)'
             }}
           >
-            Field Note
+            Field Protocol
           </div>
           <h3 
-            className="mt-2 text-lg font-bold tracking-tight"
             style={{ 
               fontFamily: 'Georgia, serif',
-              color: 'rgb(var(--ink))'
+              fontSize: 'var(--text-xl)',
+              fontWeight: 700,
+              letterSpacing: '-0.01em',
+              color: 'rgb(var(--ink))',
+              marginTop: 'var(--space-2)'
             }}
           >
             {title}
@@ -58,77 +65,138 @@ export function StoryCard({
         </div>
       </div>
 
-      {/* Content area */}
+      {/* Content */}
       <div 
-        className="space-y-4 px-5 py-5"
         style={{
-          background: 'rgba(var(--parchment), 0.85)'
+          background: 'rgba(var(--parchment), 0.88)',
+          padding: 'var(--space-6)'
         }}
       >
+        <div className="space-y-4">
         <div 
-          className="rounded p-3"
+          className="rounded-lg p-4"
           style={{
-            background: 'rgba(255, 255, 255, 0.5)',
-            border: '1px solid rgba(var(--dossier-gold), 0.3)'
+            background: 'rgba(255, 255, 255, 0.6)',
+            border: '1px solid rgba(var(--dossier-gold), 0.35)'
           }}
         >
-          <div className="text-[10px] uppercase tracking-[0.2em] font-semibold opacity-70 mb-1">Objective</div>
-          <p className="text-sm leading-relaxed">{objective}</p>
+          <div 
+            style={{
+              fontSize: 'var(--text-xs)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              fontWeight: 600,
+              color: 'rgb(var(--ink-muted))',
+              marginBottom: 'var(--space-2)'
+            }}
+          >
+            Objective
+          </div>
+          <p 
+            style={{
+              fontSize: 'var(--text-sm)',
+              lineHeight: 1.7,
+              color: 'rgb(var(--ink))'
+            }}
+          >
+            {objective}
+          </p>
         </div>
 
         <div 
-          className="rounded p-3"
+          className="rounded-lg p-4"
           style={{
-            background: 'rgba(255, 255, 255, 0.5)',
-            border: '1px solid rgba(var(--dossier-gold), 0.3)'
+            background: 'rgba(255, 255, 255, 0.6)',
+            border: '1px solid rgba(var(--dossier-gold), 0.35)'
           }}
         >
-          <div className="text-[10px] uppercase tracking-[0.2em] font-semibold opacity-70 mb-1">Why it matters</div>
-          <p className="text-sm leading-relaxed">{why}</p>
+          <div 
+            style={{
+              fontSize: 'var(--text-xs)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              fontWeight: 600,
+              color: 'rgb(var(--ink-muted))',
+              marginBottom: 'var(--space-2)'
+            }}
+          >
+            Why it matters
+          </div>
+          <p 
+            style={{
+              fontSize: 'var(--text-sm)',
+              lineHeight: 1.7,
+              color: 'rgb(var(--ink))'
+            }}
+          >
+            {why}
+          </p>
         </div>
 
         <div 
-          className="rounded p-3"
+          className="rounded-lg p-4"
           style={{
-            background: 'rgba(255, 255, 255, 0.5)',
-            border: '1px solid rgba(var(--dossier-gold), 0.3)'
+            background: 'rgba(255, 255, 255, 0.6)',
+            border: '1px solid rgba(var(--dossier-gold), 0.35)'
           }}
         >
-          <div className="text-[10px] uppercase tracking-[0.2em] font-semibold opacity-70 mb-2">Procedure</div>
-          <ol className="space-y-2 text-sm">
+          <div 
+            style={{
+              fontSize: 'var(--text-xs)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              fontWeight: 600,
+              color: 'rgb(var(--ink-muted))',
+              marginBottom: 'var(--space-3)'
+            }}
+          >
+            Procedure
+          </div>
+          <ol className="space-y-3" style={{ fontSize: 'var(--text-sm)' }}>
             {procedure.map((step, idx) => (
-              <li key={idx} className="flex gap-2">
+              <li key={idx} className="flex gap-3">
                 <span 
-                  className="mt-[2px] flex-shrink-0 h-[18px] w-[18px] rounded-full flex items-center justify-center text-[10px] font-bold"
+                  className="flex-shrink-0 h-5 w-5 rounded-full flex items-center justify-center"
                   style={{
-                    background: 'rgba(var(--dossier-gold), 0.6)',
+                    marginTop: '2px',
+                    fontSize: 'var(--text-xs)',
+                    fontWeight: 700,
+                    background: 'rgba(var(--dossier-gold), 0.7)',
                     color: 'rgb(var(--ink))'
                   }}
                 >
                   {idx + 1}
                 </span>
-                <span className="leading-relaxed">{step}</span>
+                <span style={{ lineHeight: 1.7, color: 'rgb(var(--ink))' }}>{step}</span>
               </li>
             ))}
           </ol>
           {hint ? (
-            <p className="mt-3 text-xs italic opacity-75">
-              <span className="font-semibold">Hint:</span> {hint}
+            <p 
+              style={{
+                marginTop: 'var(--space-4)',
+                fontSize: 'var(--text-xs)',
+                fontStyle: 'italic',
+                color: 'rgb(var(--ink-muted))'
+              }}
+            >
+              <span style={{ fontWeight: 600 }}>Hint:</span> {hint}
             </p>
           ) : null}
         </div>
 
         {children ? (
           <div 
-            className="rounded p-4"
+            className="rounded-lg p-4"
             style={{
-              background: 'rgba(255, 255, 255, 0.6)',
+              background: 'rgba(255, 255, 255, 0.65)',
               border: '1px solid rgba(var(--dossier-gold), 0.4)'
             }}
           >
             {children}
           </div>
         ) : null}
+        </div>
       </div>
     </div>
   );

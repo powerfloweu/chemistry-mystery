@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { clearState, readState, setField } from "@/lib/gameStore";
 import { BasicShell } from "@/components/Guard";
 import { Button } from "@/components/ui/Button";
-import { WaxSeal } from "@/components/ui/WaxSeal";
+import { WaxSealImage } from "@/components/ui/WaxSealImage";
 import Folio from "@/components/ui/Folio";
 import Figure from "@/components/ui/Figure";
 import { STORY } from "@/lib/story";
@@ -80,7 +80,7 @@ export default function StartPage() {
     return [
       `ACCESS GRANTED`,
       `Subject: ${who}`,
-      `Project: BOND STABILITY ANALYSIS`,
+      `Project: FIELD NOTES INTERFACE`,
       `Scope: identity -> energetics -> field perturbation -> mechanism`,
       ...(STORY.start?.beats ?? []),
       `Protocol integrity is mandatory.`,
@@ -97,72 +97,58 @@ export default function StartPage() {
   };
 
   return (
-    <BasicShell title="Sealed Dossier" subtitle="Classified Record | Archive Access Portal">
+    <BasicShell title="Chemistry Mystery" subtitle="You have been invited to solve a" description="A rare, symmetric bond has been reported.">
       <div className="space-y-5 animate-fadeIn">
+        <div className="absolute top-2 right-0 translate-x-3 z-40">
+          <WaxSealImage
+            broken={started}
+            disabled={!safeName.length}
+            size={220}
+            onClick={() => {
+              if (!safeName.length) return;
+              setStarted(true);
+            }}
+          />
+        </div>
+
         {!started ? (
           <>
-            <div className="mb-6 text-center space-y-2">
-              <p className="text-xs font-semibold text-slate-700 tracking-widest uppercase">
-                Certificate of Access
-              </p>
-              <p className="text-sm text-slate-700/75 italic">
-                A bond has been reported—rare, symmetric, theoretically forbidden. 
-                The evidence remains sealed pending investigator clearance.
-              </p>
-            </div>
-
             <Folio
-              label="AUTHENTICATION"
-              title="Investigator Clearance"
+              label="IDENTIFICATION"
+              title="Chemist Clearance"
               note="Enter your name to authorize record access."
             >
               <div className="relative">
-                <div className="pointer-events-none absolute -right-4 -top-8 z-30 overflow-visible animate-fadeIn">
-                  <WaxSeal open={started} label="SEALED" />
-                </div>
-
-                <Figure caption="Investigator authentication (local encryption)">
+                <Figure caption="Local Encryption">
                   <div className="space-y-3">
                     <label className="text-xs font-semibold tracking-wide text-slate-800/80">
-                      Registered Investigator Name
+                      Scientist Name
                     </label>
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Your name"
-                      className="w-full rounded-2xl border border-slate-900/15 bg-white/70 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
+                      className="w-full rounded-2xl border border-slate-900/15 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                     />
-                    <p className="text-xs text-slate-700/70">
-                      (Persistent on this device only. Required for record segregation.)
-                    </p>
-
-                    <div className="pt-1">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs text-slate-700/70">
+                        (Persistent on this device only. Required for record segregation.)
+                      </p>
                       <Button
                         type="button"
                         variant="ghost"
-                        className="w-full"
+                        className="text-xs px-2 py-1 whitespace-nowrap"
                         onClick={() => {
                           clearState();
                           setName("");
                         }}
                         title="Clear saved name from this session"
                       >
-                        Clear saved name
+                        New alter ego
                       </Button>
                     </div>
                   </div>
                 </Figure>
-
-                <div className="mt-4">
-                  <Button
-                    type="button"
-                    variant="primary"
-                    className="w-full"
-                    onClick={() => setStarted(true)}
-                  >
-                    Break the Seal
-                  </Button>
-                </div>
 
                 <p className="mt-4 text-xs text-slate-700/60 border-l-2 border-amber-700/40 pl-3">
                   <span className="font-semibold">Archive Protocol:</span> The final objective remains sealed. You will proceed by evidence only.

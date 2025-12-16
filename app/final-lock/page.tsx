@@ -50,13 +50,13 @@ export default function FinalLock() {
           >
             <div className="space-y-4">
               <label className="text-xs">Number of distinct ¹H environments in Sample B</label>
-              <input className="w-full rounded-xl border px-4 py-3 text-center text-lg bg-white/60" value={a} onChange={(e) => setA(e.target.value)} />
+              <input className="w-full rounded-xl border px-4 py-3 text-center text-lg bg-white" value={a} onChange={(e) => setA(e.target.value)} />
 
               <label className="text-xs">|ΔG°| magnitude of equilibrium-dominant product</label>
-              <input className="w-full rounded-xl border px-4 py-3 text-center text-lg bg-white/60" value={b} onChange={(e) => setB(e.target.value)} />
+              <input className="w-full rounded-xl border px-4 py-3 text-center text-lg bg-white" value={b} onChange={(e) => setB(e.target.value)} />
 
               <label className="text-xs">Catalyst net charge (sign included)</label>
-              <input className="w-full rounded-xl border px-4 py-3 text-center text-lg bg-white/60" value={c} onChange={(e) => setC(e.target.value)} />
+              <input className="w-full rounded-xl border px-4 py-3 text-center text-lg bg-white" value={c} onChange={(e) => setC(e.target.value)} />
 
               <Button
                 variant="primary"

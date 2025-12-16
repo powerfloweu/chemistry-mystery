@@ -1,13 +1,13 @@
 @import "tailwindcss";
 @layer utilities {
-  .ink-muted { color: rgb(var(--ink) / 0.72); }
-  .ink-faint { color: rgb(var(--ink) / 0.55); }
+  .ink-muted { color: rgb(var(--ink-muted)); }
+  .ink-faint { color: rgb(var(--ink-faint)); }
 
-  /* Smooth entrance that doesn't feel “web app” */
+  /* Smooth entrance that doesn't feel "web app" */
   .enter { animation: fadeIn 0.35s ease-out both; }
 
   /* Optional debug toggle: add class="debug-outline" on a wrapper when needed */
-  .debug-outline { outline: 2px dashed rgba(214,169,78,.65); outline-offset: 4px; }
+  .debug-outline { outline: 2px dashed rgba(var(--dossier-gold),.65); outline-offset: 4px; }
 }
 
 /* Parchment background, grain, vignette, and utility animations for the Alchemy Notebook theme */
@@ -16,27 +16,44 @@
 html, body { margin: 0; padding: 0; height: 100%; }
 
 :root{
-  --ink: 17 24 39;      /* slate-900 */
-  --paper: 250 246 237; /* warm paper */
-  --paper2: 244 238 226;
-
-  /* ring-hint accents */
-  --emerald-ink: 6 78 59;
-  --emerald-glow: 16 185 129;
-
-  --gold-deep: 120 72 0;
-  --gold-mid: 214 169 78;
-  --gold-high: 255 244 214;
+  /* Core palette - consolidated */
+  --ink: 17 24 39;                 /* slate-900 - primary text */
+  --ink-muted: 71 85 105;          /* slate-600 - secondary text */
+  --ink-faint: 148 163 184;        /* slate-400 - tertiary text */
   
   /* Dossier vintage palette */
-  --dossier-dark: 20 30 20;       /* dark green-black */
-  --dossier-gold: 180 140 50;     /* antique gold */
-  --parchment: 230 215 180;       /* aged paper */
-  --parchment-dark: 210 190 150;  /* darker parchment */
+  --dossier-dark: 20 30 20;        /* dark green-black - background */
+  --dossier-gold: 180 140 50;      /* antique gold - borders/accents */
+  --parchment: 230 215 180;        /* aged paper - content backgrounds */
+  --parchment-dark: 210 190 150;   /* darker parchment - shadows */
+  
+  /* Accent colors */
+  --amber-warm: 217 119 6;         /* amber-600 - info boxes */
+  --emerald-deep: 6 78 59;         /* emerald-900 - primary buttons */
+  --emerald-mid: 16 185 129;       /* emerald-500 - accents */
+  
+  /* Typography scale */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  
+  /* Spacing scale */
+  --space-1: 0.25rem;     /* 4px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-4: 1rem;        /* 16px */
+  --space-5: 1.25rem;     /* 20px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-8: 2rem;        /* 32px */
 }
 
 body{
   font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--text-base);
+  line-height: 1.6;
   color: rgb(var(--ink));
   background: linear-gradient(135deg, rgb(var(--dossier-dark)) 0%, rgb(15 25 15) 50%, rgb(var(--dossier-dark)) 100%);
   background-repeat: no-repeat;

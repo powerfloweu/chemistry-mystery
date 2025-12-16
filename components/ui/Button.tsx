@@ -15,7 +15,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "appearance-none select-none inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition-all active:scale-[0.98] active:translate-y-[1px] focus:outline-none";
+    "appearance-none select-none inline-flex items-center justify-center rounded-2xl px-5 py-3 text-base font-semibold transition-all active:scale-[0.98] active:translate-y-[1px] focus:outline-none";
 
   const disabledCls = disabled
     ? "opacity-40 cursor-not-allowed"
@@ -23,13 +23,37 @@ export function Button({
 
   const variants: Record<ButtonVariant, string> = {
     primary:
-      "relative bg-gradient-to-b from-emerald-900 to-emerald-950 text-amber-50 border-2 border-amber-600/60 shadow-lg hover:border-amber-500/80 hover:shadow-xl transition-all",
+      "relative border-2 border-amber-900/80 shadow-lg hover:border-amber-900 hover:shadow-xl transition-all",
 
     secondary:
-      "relative bg-gradient-to-b from-amber-100 to-amber-200 text-slate-900 border-2 border-amber-700/50 shadow-md hover:from-amber-200 hover:to-amber-300 hover:border-amber-700/70",
+      "relative border-2 border-amber-700/50 shadow-md hover:border-amber-700/70",
 
     ghost:
-      "bg-transparent text-slate-900 border-2 border-amber-700/40 hover:border-amber-700/60 hover:bg-amber-50/40",
+      "border-2 border-amber-700/60 hover:border-amber-700/80 shadow-md",
+  };
+
+  const bgStyles: Record<ButtonVariant, React.CSSProperties> = {
+    primary: {
+      background: 'linear-gradient(to bottom, #b45309, #92400e)',
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      letterSpacing: '0.04em',
+      color: '#b68a2c',
+      textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+    },
+    secondary: {
+      background: 'linear-gradient(to bottom, #fef3c7, #fde68a)',
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      letterSpacing: '0.04em',
+      color: '#b68a2c',
+      textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+    },
+    ghost: {
+      background: 'linear-gradient(to bottom, #fde68a, #fcd34d)',
+      fontFamily: 'Georgia, "Times New Roman", serif',
+      letterSpacing: '0.04em',
+      color: '#b68a2c',
+      textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+    },
   };
 
   return (
@@ -39,6 +63,7 @@ export function Button({
       className={[base, variants[variant], disabledCls, className]
         .filter(Boolean)
         .join(" ")}
+      style={{ ...bgStyles[variant], ...props.style }}
     />
   );
 }

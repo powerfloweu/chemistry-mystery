@@ -126,7 +126,7 @@ export default function Station1Nmr() {
                       <select
                         value={identityReason}
                         onChange={(e) => setIdentityReason(e.target.value)}
-                        className="w-full rounded-2xl border border-slate-900/15 bg-white/70 px-4 py-3 text-sm text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
+                        className="w-full rounded-2xl border border-slate-900/15 bg-white px-4 py-3 text-sm text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                       >
                         <option value="">Select reason</option>
                         <option value="Mismatch in methyl integration">Mismatch in methyl integration</option>

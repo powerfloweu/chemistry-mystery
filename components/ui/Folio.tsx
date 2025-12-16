@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -14,11 +13,12 @@ type FolioProps = {
 export function Folio({ label, title, note, children, className = "" }: FolioProps) {
   return (
     <section
-      className={`relative overflow-hidden rounded-lg ${className}`}
+      className={`relative overflow-visible rounded-lg ${className}`}
       style={{
         background: 'linear-gradient(135deg, rgba(var(--dossier-gold), 0.3) 0%, rgba(var(--dossier-gold), 0.2) 100%)',
         border: '2px solid rgba(var(--dossier-gold), 0.5)',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.25), inset 0 2px 6px rgba(255,255,255,0.2)'
+        boxShadow: '0 8px 24px rgba(0,0,0,0.25), inset 0 2px 6px rgba(255,255,255,0.2)',
+        isolation: 'isolate'
       }}
     >
       {/* Parchment inner border */}
@@ -33,7 +33,7 @@ export function Folio({ label, title, note, children, className = "" }: FolioPro
       <div 
         className="relative p-6"
         style={{
-          background: 'rgba(var(--parchment), 0.9)'
+          background: 'rgba(var(--parchment), 0.3)'
         }}
       >
         <header className="text-center mb-6">
