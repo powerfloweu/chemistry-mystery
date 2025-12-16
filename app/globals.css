@@ -1,114 +1,87 @@
-/* Parchment background, grain, vignette, and utility animations for the Alchemy Notebook theme */
-
-:root{
-	--ink: 17 24 39; /* slate-900 */
-	--paper: 250 246 237; /* warm paper */
-	--emerald: 16 185 129; /* emerald */
-	--gold: 245 158 11; /* amber/gold */
+@import "tailwindcss";
+@layer utilities {
+  .__tw_alive { outline: 8px solid red; }
 }
 
-html,body,#root{height:100%;}
+/* Parchment background, grain, vignette, and utility animations for the Alchemy Notebook theme */
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+
+:root{
+  --ink: 17 24 39;      /* slate-900 */
+  --paper: 250 246 237; /* warm paper */
+  --paper2: 244 238 226;
+
+  /* ring-hint accents */
+  --emerald-ink: 6 78 59;
+  --emerald-glow: 16 185 129;
+
+  --gold-deep: 120 72 0;
+  --gold-mid: 214 169 78;
+  --gold-high: 255 244 214;
+}
 
 body{
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    color: rgb(var(--ink));
-    background-color: rgb(var(--paper));
-    /* Layered parchment base: radial highlights + warm linen gradient */
-    background-image:
-        radial-gradient(600px 300px at 10% 15%, rgba(var(--emerald),0.06), transparent 20%),
-        radial-gradient(500px 260px at 85% 30%, rgba(var(--gold),0.06), transparent 18%),
-        radial-gradient(1200px 600px at 50% 10%, rgba(255,255,255,0.06), transparent 25%),
-        linear-gradient(180deg, rgba(250,244,233,1) 0%, rgba(247,240,227,1) 45%, rgba(241,233,217,1) 100%);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: rgb(var(--ink));
+  background:
+    radial-gradient(1100px 700px at 15% 8%, rgba(var(--emerald-glow), .08), transparent 60%),
+    radial-gradient(900px 620px at 92% 22%, rgba(var(--gold-mid), .10), transparent 55%),
+    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.10), transparent 55%),
+    linear-gradient(180deg, rgb(var(--paper)) 0%, rgb(var(--paper2)) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 /* subtle grain using SVG data URI */
 body::before{
-    content: '';
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.06'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.06'/></svg>");
-    mix-blend-mode: multiply;
-    opacity: 0.6;
-    z-index: 0;
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.07'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  z-index: 0;
 }
 
 /* vignette overlay */
 body::after{
-    content: '';
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(60% 70% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 60%, rgba(0,0,0,0.14) 100%);
-    mix-blend-mode: multiply;
-    z-index: 1;
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(60% 70% at 50% 35%, transparent 55%, rgba(0,0,0,.18) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  z-index: 1;
 }
 
-/* small utility to ensure content sits above background layers */
+/* ensure app content sits above background layers */
 main { position: relative; z-index: 2; }
+
+/* Remove OS chrome / bevels globally; components provide styling */
+button, input, select, textarea {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+
+/* Provide a clean focus baseline; components should set focus-visible rings */
+:focus { outline: none; }
 
 /* fadeIn animation for page entrances */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.animate-fadeIn {
-    animation: fadeIn 0.35s ease-out both;
-}
+.animate-fadeIn { animation: fadeIn 0.35s ease-out both; }
 
 /* small responsive tweaks for tablet */
 @media (min-width: 640px) and (max-width: 1024px) {
-    :root { font-size: 15px; }
+  :root { font-size: 15px; }
 }
-
-/* Ensure background elements don't interfere with UI elements */
-.pointer-events-none { pointer-events: none; }
-
-/* Global input styling: paper-like printed fields */
-input, select, textarea {
-  appearance: none;
-  -webkit-appearance: none;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(var(--gold), 0.3);
-  background-color: rgba(255, 250, 240, 0.8);
-  color: rgb(var(--ink));
-  padding: 0.625rem 1rem;
-  font-size: 0.875rem;
-  font-family: inherit;
-  transition: all 150ms ease;
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6);
-}
-
-/* Focus state: emerald glow, not blue */
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: rgba(var(--emerald), 0.6);
-  background-color: rgba(255, 250, 240, 0.95);
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 0 0 3px rgba(var(--emerald), 0.1);
-}
-
-/* Placeholder styling */
-input::placeholder, textarea::placeholder {
-  color: rgba(var(--ink), 0.4);
-  font-style: italic;
-}
-
-/* Remove default select arrow, we'll style it */
-select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path fill='rgba(16,185,129,0.7)' d='M0 0l6 8 6-8H0z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  padding-right: 2.5rem;
-}
-
-/* Disabled state */
-input:disabled, select:disabled, textarea:disabled {
-  opacity: 0.55;
-  background-color: rgba(var(--paper), 0.8);
-  cursor: not-allowed;
-}
-

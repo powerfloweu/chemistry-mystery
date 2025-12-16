@@ -2,57 +2,44 @@
 
 import React from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "secondary" | "ghost";
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
 };
 
 export function Button({
   variant = "primary",
-  className,
+  className = "",
   disabled,
   ...props
 }: ButtonProps) {
-  const baseClasses = [
-    "appearance-none select-none inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition-all",
-    "active:scale-95 active:translate-y-0.5",
-    disabled ? "opacity-40 cursor-not-allowed" : "hover:shadow-lg",
-    className || "",
-  ];
+  const base =
+    "appearance-none select-none inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition-all active:scale-[0.98] active:translate-y-[1px] focus:outline-none";
 
-  const style: React.CSSProperties = {};
-  
-  if (variant === "primary") {
-    // Emerald enamel with gold rim
-    style.backgroundColor = "rgb(var(--emerald))";
-    style.color = "rgb(var(--paper))";
-    style.boxShadow = `
-      inset 0 1px 2px rgba(255,255,255,0.3),
-      0 0 0 2px rgba(var(--gold),0.4),
-      0 8px 20px -6px rgba(16,24,40,0.12)
-    `;
-    style.textShadow = "0 1px 1px rgba(0,0,0,0.1)";
-  }
-  
-  if (variant === "secondary") {
-    // Paper background with gold outline, no gray
-    style.backgroundColor = "rgba(255,250,240,0.85)";
-    style.color = "rgb(var(--ink))";
-    style.border = "1.5px solid rgba(var(--gold),0.5)";
-    style.boxShadow = "inset 0 1px 2px rgba(255,255,255,0.5)";
-  }
-  
-  if (variant === "ghost") {
-    // Transparent, gold text on hover
-    style.backgroundColor = "transparent";
-    style.color = "rgb(var(--ink))";
-    style.border = "1px solid rgba(var(--gold),0.3)";
-    style.transition = "all 200ms ease";
-  }
+  const disabledCls = disabled
+    ? "opacity-40 cursor-not-allowed"
+    : "hover:brightness-[1.02]";
+
+  const variants: Record<ButtonVariant, string> = {
+    primary:
+      "relative !bg-emerald-900 !text-amber-50 ring-1 ring-amber-300/35 hover:ring-amber-200/55 shadow-[0_14px_30px_-22px_rgba(6,78,59,.95)] before:absolute before:inset-[1px] before:rounded-[14px] before:[background:linear-gradient(180deg,rgba(255,244,214,.32),transparent)] before:content-['']",
+
+    secondary:
+      "!bg-white/70 !text-slate-900 border border-amber-300/45 shadow-[inset_0_1px_0_rgba(255,244,214,.55)] hover:bg-white/85",
+
+    ghost:
+      "!bg-transparent !text-slate-900 border border-amber-300/25 hover:border-amber-300/45 hover:bg-white/40",
+  };
 
   return (
-    <button {...props} disabled={disabled} className={baseClasses.filter(Boolean).join(" ")} style={style} />
+    <button
+      {...props}
+      disabled={disabled}
+      className={[base, variants[variant], disabledCls, className]
+        .filter(Boolean)
+        .join(" ")}
+    />
   );
 }
 

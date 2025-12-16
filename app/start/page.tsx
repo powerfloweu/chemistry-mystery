@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { clearState, readState, setField } from "@/lib/gameStore";
-import { ROUTES } from "@/lib/routes";
 import { BasicShell } from "@/components/Guard";
 import { Button } from "@/components/ui/Button";
 import { WaxSeal } from "@/components/ui/WaxSeal";
 import Folio from "@/components/ui/Folio";
+import Figure from "@/components/ui/Figure";
 import { STORY } from "@/lib/story";
 
 function useTypewriter(lines: string[], enabled: boolean, speedMs = 22, pauseMs = 450) {
@@ -82,7 +82,6 @@ export default function StartPage() {
       `Subject: ${who}`,
       `Project: BOND STABILITY ANALYSIS`,
       `Scope: identity -> energetics -> field perturbation -> mechanism`,
-      // central beats from STORY
       ...(STORY.start?.beats ?? []),
       `Protocol integrity is mandatory.`,
       `Proceed when ready.`,
@@ -98,42 +97,40 @@ export default function StartPage() {
   };
 
   return (
-    <BasicShell
-      title="Sealed Dossier"
-      subtitle="Unauthorized disclosure is prohibited"
-    >
-      <div className="space-y-5">
+    <BasicShell title="Sealed Dossier" subtitle="Unauthorized disclosure is prohibited">
+      <div className="space-y-5 animate-fadeIn">
         {!started ? (
           <>
-            <div>
-              <Folio
-                label="IDENTIFICATION"
-                title="Investigator Identification"
-                note="To open the record, enter the investigator name."
-              >
-                <div className="relative">
-                  {/* Wax seal overlays the folio content (no layout shift) */}
-                  <div className="pointer-events-none absolute -right-3 -top-3 z-30 overflow-visible">
-                    <WaxSeal open={started} label="SEALED" />
-                  </div>
+            <Folio
+              label="IDENTIFICATION"
+              title="Investigator Identification"
+              note="To open the record, enter the investigator name."
+            >
+              <div className="relative">
+                <div className="pointer-events-none absolute -right-4 -top-8 z-30 overflow-visible animate-fadeIn">
+                  <WaxSeal open={started} label="SEALED" />
+                </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-medium text-slate-700">Investigator</label>
+                <Figure caption="Authentication field (local device only)">
+                  <div className="space-y-3">
+                    <label className="text-xs font-semibold tracking-wide text-slate-800/80">
+                      Investigator
+                    </label>
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Your name"
-                      className="w-full rounded-xl border border-slate-900/15 bg-white/60 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
+                      className="w-full rounded-2xl border border-slate-900/15 bg-white/70 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                     />
                     <p className="text-xs text-slate-700/70">
-                      (This is only used for personalization on this device.)
+                      (Used only for personalization on this device.)
                     </p>
 
-                    <div className="pt-2">
+                    <div className="pt-1">
                       <Button
                         type="button"
                         variant="ghost"
-                        className="w-full justify-start"
+                        className="w-full"
                         onClick={() => {
                           clearState();
                           setName("");
@@ -144,25 +141,24 @@ export default function StartPage() {
                       </Button>
                     </div>
                   </div>
+                </Figure>
+
+                <div className="mt-4">
+                  <Button
+                    type="button"
+                    variant="primary"
+                    className="w-full"
+                    onClick={() => setStarted(true)}
+                  >
+                    Break the Seal
+                  </Button>
                 </div>
-              </Folio>
-            </div>
 
-            <Button
-              type="button"
-              variant="primary"
-              className="w-full"
-              onClick={() => {
-                setStarted(true);
-              }}
-              disabled={!safeName.length}
-            >
-              Break the Seal
-            </Button>
-
-            <p className="text-xs text-slate-700/60">
-              Note: the system will not reveal the final objective in advance.
-            </p>
+                <p className="mt-4 text-xs text-slate-700/60">
+                  Note: the system will not reveal the final objective in advance.
+                </p>
+              </div>
+            </Folio>
           </>
         ) : (
           <>
@@ -171,36 +167,35 @@ export default function StartPage() {
               title="Recovered Archive Entry"
               note="This interface is procedural by design. No hints beyond the protocol."
             >
-              <div className="font-mono text-[13px] leading-relaxed text-slate-900">
-                {out.map((l, i) => (
-                  <div key={i} className="whitespace-pre-wrap">
-                    <span className="text-emerald-900/70 mr-2">▸</span>
-                    {l}
-                    {i === out.length - 1 && !done ? (
-                      <span className="inline-block w-[8px] ml-1 animate-pulse">▍</span>
-                    ) : null}
-                  </div>
-                ))}
+              <Figure caption="Recovered access transcript">
+                <div className="font-mono text-[13px] leading-relaxed text-slate-900">
+                  {out.map((l, i) => (
+                    <div key={i} className="whitespace-pre-wrap">
+                      <span className="text-emerald-900/70 mr-2">▸</span>
+                      {l}
+                      {i === out.length - 1 && !done ? (
+                        <span className="inline-block w-[8px] ml-1 animate-pulse">▍</span>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </Figure>
+
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <Button variant="secondary" onClick={() => setStarted(false)}>
+                  Reseal
+                </Button>
+
+                <Button
+                  variant="primary"
+                  onClick={begin}
+                  disabled={!done}
+                  title={!done ? "Wait for the record to finish loading" : "Begin"}
+                >
+                  Begin Analysis
+                </Button>
               </div>
             </Folio>
-
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="secondary"
-                onClick={() => setStarted(false)}
-              >
-                Reseal
-              </Button>
-
-              <Button
-                variant="primary"
-                onClick={begin}
-                disabled={!done}
-                title={!done ? "Wait for the record to finish loading" : "Begin"}
-              >
-                Begin Analysis
-              </Button>
-            </div>
           </>
         )}
       </div>
