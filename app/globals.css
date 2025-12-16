@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @layer utilities {
-  .__tw_alive { outline: 8px solid red; }
+  .ink-muted { color: rgb(var(--ink) / 0.72); }
+  .ink-faint { color: rgb(var(--ink) / 0.55); }
+
+  /* Smooth entrance that doesn't feel “web app” */
+  .enter { animation: fadeIn 0.35s ease-out both; }
+
+  /* Optional debug toggle: add class="debug-outline" on a wrapper when needed */
+  .debug-outline { outline: 2px dashed rgba(214,169,78,.65); outline-offset: 4px; }
 }
 
 /* Parchment background, grain, vignette, and utility animations for the Alchemy Notebook theme */
@@ -20,16 +27,18 @@ html, body { margin: 0; padding: 0; height: 100%; }
   --gold-deep: 120 72 0;
   --gold-mid: 214 169 78;
   --gold-high: 255 244 214;
+  
+  /* Dossier vintage palette */
+  --dossier-dark: 20 30 20;       /* dark green-black */
+  --dossier-gold: 180 140 50;     /* antique gold */
+  --parchment: 230 215 180;       /* aged paper */
+  --parchment-dark: 210 190 150;  /* darker parchment */
 }
 
 body{
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-family: Georgia, "Times New Roman", serif;
   color: rgb(var(--ink));
-  background:
-    radial-gradient(1100px 700px at 15% 8%, rgba(var(--emerald-glow), .08), transparent 60%),
-    radial-gradient(900px 620px at 92% 22%, rgba(var(--gold-mid), .10), transparent 55%),
-    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.10), transparent 55%),
-    linear-gradient(180deg, rgb(var(--paper)) 0%, rgb(var(--paper2)) 100%);
+  background: linear-gradient(135deg, rgb(var(--dossier-dark)) 0%, rgb(15 25 15) 50%, rgb(var(--dossier-dark)) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

@@ -21,40 +21,111 @@ export function StoryCard({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-slate-900/10 bg-white/80 shadow-sm ring-1 ring-amber-100/60 ${className}`}
+      className={`relative rounded-lg overflow-hidden ${className}`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(var(--dossier-gold), 0.4) 0%, rgba(var(--dossier-gold), 0.25) 100%)',
+        border: '2px solid rgba(var(--dossier-gold), 0.5)',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15), inset 0 1px 3px rgba(255,255,255,0.3)'
+      }}
     >
-      <div className="flex items-start justify-between gap-4 border-b border-amber-900/10 bg-gradient-to-r from-amber-50/80 via-white to-emerald-50/60 px-4 py-3">
-        <div className="space-y-1">
-          <div className="text-[11px] uppercase tracking-[0.22em] text-amber-800/80">Protocol</div>
-          <h3 className="text-lg font-semibold" style={{ color: "rgb(var(--ink))" }}>
+      {/* Decorative header */}
+      <div 
+        className="relative px-5 py-4 border-b-2"
+        style={{
+          background: 'linear-gradient(180deg, rgba(var(--parchment), 0.95), rgba(var(--parchment-dark), 0.9))',
+          borderColor: 'rgba(var(--dossier-gold), 0.6)'
+        }}
+      >
+        <div className="text-center">
+          <div 
+            className="inline-block text-[10px] uppercase tracking-[0.3em] font-semibold px-3 py-1 rounded"
+            style={{
+              background: 'rgba(var(--dossier-gold), 0.2)',
+              color: 'rgb(var(--gold-deep))'
+            }}
+          >
+            Field Note
+          </div>
+          <h3 
+            className="mt-2 text-lg font-bold tracking-tight"
+            style={{ 
+              fontFamily: 'Georgia, serif',
+              color: 'rgb(var(--ink))'
+            }}
+          >
             {title}
           </h3>
-          <p className="text-sm text-slate-700/90">Objective: {objective}</p>
         </div>
-        <div className="mt-1 h-8 w-1 rounded-full" style={{ background: "linear-gradient(180deg, rgba(var(--emerald),0.75), rgba(var(--gold),0.75))" }} />
       </div>
 
-      <div className="space-y-5 px-5 py-4">
-        <div className="rounded-xl bg-white/80 p-4 ring-1 ring-slate-900/5">
-          <div className="text-[11px] uppercase tracking-[0.18em] text-amber-800/80">Why it matters</div>
-          <p className="mt-1 text-sm text-slate-800/90">{why}</p>
+      {/* Content area */}
+      <div 
+        className="space-y-4 px-5 py-5"
+        style={{
+          background: 'rgba(var(--parchment), 0.85)'
+        }}
+      >
+        <div 
+          className="rounded p-3"
+          style={{
+            background: 'rgba(255, 255, 255, 0.5)',
+            border: '1px solid rgba(var(--dossier-gold), 0.3)'
+          }}
+        >
+          <div className="text-[10px] uppercase tracking-[0.2em] font-semibold opacity-70 mb-1">Objective</div>
+          <p className="text-sm leading-relaxed">{objective}</p>
         </div>
 
-        <div className="rounded-xl bg-white/80 p-4 ring-1 ring-slate-900/5">
-          <div className="text-[11px] uppercase tracking-[0.18em] text-amber-800/80">Procedure</div>
-          <ol className="mt-2 space-y-2 text-sm text-slate-800/90">
+        <div 
+          className="rounded p-3"
+          style={{
+            background: 'rgba(255, 255, 255, 0.5)',
+            border: '1px solid rgba(var(--dossier-gold), 0.3)'
+          }}
+        >
+          <div className="text-[10px] uppercase tracking-[0.2em] font-semibold opacity-70 mb-1">Why it matters</div>
+          <p className="text-sm leading-relaxed">{why}</p>
+        </div>
+
+        <div 
+          className="rounded p-3"
+          style={{
+            background: 'rgba(255, 255, 255, 0.5)',
+            border: '1px solid rgba(var(--dossier-gold), 0.3)'
+          }}
+        >
+          <div className="text-[10px] uppercase tracking-[0.2em] font-semibold opacity-70 mb-2">Procedure</div>
+          <ol className="space-y-2 text-sm">
             {procedure.map((step, idx) => (
               <li key={idx} className="flex gap-2">
-                <span className="mt-[2px] h-[6px] w-[6px] rounded-full bg-emerald-700/80" />
+                <span 
+                  className="mt-[2px] flex-shrink-0 h-[18px] w-[18px] rounded-full flex items-center justify-center text-[10px] font-bold"
+                  style={{
+                    background: 'rgba(var(--dossier-gold), 0.6)',
+                    color: 'rgb(var(--ink))'
+                  }}
+                >
+                  {idx + 1}
+                </span>
                 <span className="leading-relaxed">{step}</span>
               </li>
             ))}
           </ol>
-          {hint ? <p className="mt-3 text-xs text-slate-700/80">Hint: {hint}</p> : null}
+          {hint ? (
+            <p className="mt-3 text-xs italic opacity-75">
+              <span className="font-semibold">Hint:</span> {hint}
+            </p>
+          ) : null}
         </div>
 
         {children ? (
-          <div className="rounded-xl bg-white/85 p-4 ring-1 ring-amber-100/60 shadow-sm">
+          <div 
+            className="rounded p-4"
+            style={{
+              background: 'rgba(255, 255, 255, 0.6)',
+              border: '1px solid rgba(var(--dossier-gold), 0.4)'
+            }}
+          >
             {children}
           </div>
         ) : null}

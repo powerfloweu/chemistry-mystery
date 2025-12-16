@@ -23,13 +23,13 @@ export function Button({
 
   const variants: Record<ButtonVariant, string> = {
     primary:
-      "relative !bg-emerald-900 !text-amber-50 ring-1 ring-amber-300/35 hover:ring-amber-200/55 shadow-[0_14px_30px_-22px_rgba(6,78,59,.95)] before:absolute before:inset-[1px] before:rounded-[14px] before:[background:linear-gradient(180deg,rgba(255,244,214,.32),transparent)] before:content-['']",
+      "relative bg-gradient-to-b from-emerald-900 to-emerald-950 text-amber-50 border-2 border-amber-600/60 shadow-lg hover:border-amber-500/80 hover:shadow-xl transition-all",
 
     secondary:
-      "!bg-white/70 !text-slate-900 border border-amber-300/45 shadow-[inset_0_1px_0_rgba(255,244,214,.55)] hover:bg-white/85",
+      "relative bg-gradient-to-b from-amber-100 to-amber-200 text-slate-900 border-2 border-amber-700/50 shadow-md hover:from-amber-200 hover:to-amber-300 hover:border-amber-700/70",
 
     ghost:
-      "!bg-transparent !text-slate-900 border border-amber-300/25 hover:border-amber-300/45 hover:bg-white/40",
+      "bg-transparent text-slate-900 border-2 border-amber-700/40 hover:border-amber-700/60 hover:bg-amber-50/40",
   };
 
   return (

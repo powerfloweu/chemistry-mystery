@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { readState, GameState } from "../lib/gameStore";
@@ -35,64 +36,72 @@ export function BasicShell({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen p-6 flex items-center justify-center" style={{ background: 'radial-gradient(600px 300px at 10% 15%, rgba(var(--emerald),0.04), transparent 20%), radial-gradient(500px 260px at 85% 30%, rgba(var(--gold),0.04), transparent 18%), linear-gradient(180deg, rgba(250,244,233,0.5) 0%, rgba(247,240,227,0.5) 100%)' }}>
-      <div className="w-full max-w-xl space-y-6">
-        {/* Header: Title, Subtitle, Divider */}
-        <header className="space-y-3">
-          {title ? (
-            <h1 
-              className="text-4xl font-serif font-bold tracking-wide" 
-              style={{ color: 'rgb(var(--ink))', letterSpacing: '0.02em' }}
-            >
-              {title}
-            </h1>
-          ) : null}
-          {subtitle ? (
-            <p 
-              className="text-sm italic font-light" 
-              style={{ color: 'rgba(var(--ink),0.6)' }}
-            >
-              {subtitle}
-            </p>
-          ) : null}
+    <main className="min-h-screen px-3 py-8 sm:px-6 sm:py-12 flex items-center justify-center">
+      <div 
+        className="relative w-full max-w-3xl animate-fadeIn rounded-lg shadow-2xl"
+        style={{
+          background: 'linear-gradient(135deg, rgba(var(--dossier-gold), 0.9) 0%, rgba(var(--dossier-gold), 0.75) 100%)',
+          padding: '2px',
+        }}
+      >
+        {/* Ornate outer border */}
+        <div 
+          className="relative rounded-lg overflow-hidden"
+          style={{
+            background: 'linear-gradient(180deg, rgb(var(--parchment)) 0%, rgb(var(--parchment-dark)) 100%)',
+            boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.15)',
+          }}
+        >
+          {/* Decorative corners */}
+          <div className="absolute top-0 left-0 w-16 h-16 opacity-40" style={{
+            background: 'radial-gradient(circle at top left, rgba(var(--dossier-gold), 0.6), transparent 70%)'
+          }} />
+          <div className="absolute top-0 right-0 w-16 h-16 opacity-40" style={{
+            background: 'radial-gradient(circle at top right, rgba(var(--dossier-gold), 0.6), transparent 70%)'
+          }} />
+          <div className="absolute bottom-0 left-0 w-16 h-16 opacity-40" style={{
+            background: 'radial-gradient(circle at bottom left, rgba(var(--dossier-gold), 0.6), transparent 70%)'
+          }} />
+          <div className="absolute bottom-0 right-0 w-16 h-16 opacity-40" style={{
+            background: 'radial-gradient(circle at bottom right, rgba(var(--dossier-gold), 0.6), transparent 70%)'
+          }} />
 
-          {/* Gold → Emerald divider rule */}
-          <div 
-            className="h-px w-full" 
-            style={{ background: 'linear-gradient(90deg, rgba(var(--gold),0.8) 0%, rgba(var(--emerald),0.5) 50%, rgba(var(--gold),0.8) 100%)' }} 
-          />
-        </header>
+          <div className="relative px-8 py-10 sm:px-12 sm:py-14">
+            <header className="text-center space-y-3 mb-8">
+              <div className="text-xs uppercase tracking-[0.3em] font-semibold opacity-70">
+                Sealed Dossier
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight" style={{ 
+                fontFamily: 'Georgia, serif',
+                color: 'rgb(var(--ink))'
+              }}>
+                {title}
+              </h1>
+              {subtitle ? (
+                <div className="mt-2">
+                  <div className="text-xs uppercase tracking-[0.25em] font-medium opacity-60 mb-1">
+                    Identification
+                  </div>
+                  <p className="text-sm italic opacity-80">
+                    {subtitle}
+                  </p>
+                </div>
+              ) : null}
+              <div 
+                className="h-px w-full mt-4"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(var(--dossier-gold), 0.5) 20%, rgba(var(--dossier-gold), 0.5) 80%, transparent)'
+                }}
+              />
+            </header>
 
-        {/* Main Folio Panel */}
-        <section className="relative rounded-3xl overflow-hidden animate-fadeIn">
-          {/* Gilded corners */}
-          <div className="pointer-events-none absolute left-5 top-5 h-4 w-4 border-l-2 border-t-2" style={{ borderColor: 'rgba(var(--gold),0.8)' }} />
-          <div className="pointer-events-none absolute right-5 top-5 h-4 w-4 border-r-2 border-t-2" style={{ borderColor: 'rgba(var(--gold),0.8)' }} />
-          <div className="pointer-events-none absolute left-5 bottom-5 h-4 w-4 border-l-2 border-b-2" style={{ borderColor: 'rgba(var(--gold),0.8)' }} />
-          <div className="pointer-events-none absolute right-5 bottom-5 h-4 w-4 border-r-2 border-b-2" style={{ borderColor: 'rgba(var(--gold),0.8)' }} />
+            <section>{children}</section>
 
-          {/* Subtle emerald bloom */}
-          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald-800/5 blur-3xl" />
-
-          {/* Outer gilt frame + inner paper */}
-          <div className="p-1 relative">
-            <div 
-              className="rounded-2xl border-2 p-6"
-              style={{ 
-                borderColor: 'rgba(var(--gold),0.3)',
-                background: 'linear-gradient(135deg, rgba(255,250,240,0.95) 0%, rgba(255,250,240,0.9) 100%)',
-                boxShadow: 'inset 0 1px 3px rgba(255,255,255,0.8), 0 10px 30px -10px rgba(0,0,0,0.08)'
-              }}
-            >
-              {children}
-            </div>
+            <footer className="mt-10 pt-6 border-t border-black/10 text-center text-xs opacity-60">
+              Bond Stability Analysis • Field Notes Interface
+            </footer>
           </div>
-        </section>
-
-        {/* Footer: Archival system label */}
-        <footer className="text-xs font-light text-center" style={{ color: 'rgba(var(--ink),0.5)' }}>
-          Bond Stability Analysis • Field Notes Interface
-        </footer>
+        </div>
       </div>
     </main>
   );
