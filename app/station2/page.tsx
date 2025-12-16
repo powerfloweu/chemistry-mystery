@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Guard, BasicShell } from "../../components/Guard";
-import { setToken } from "../../lib/gameStore";
+import { setToken, setField } from "../../lib/gameStore";
 import { ROUTES } from "../../lib/routes";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { LogLine } from "../../components/ui/LogLine";
@@ -14,8 +14,8 @@ export default function Station2Reaction() {
   const choose = (which: "kinetic" | "thermo") => {
     if (which !== "thermo") return;
     setToken("token2", "8");
-    setToken("s2_productOk", true);
-    setToken("s2_conditionOk", true);
+    setField("s2_productOk", true);
+    setField("s2_conditionOk", true);
     router.push(ROUTES.s3);
   };
 

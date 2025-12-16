@@ -2,7 +2,7 @@
 
 import { Guard, BasicShell } from "../../components/Guard";
 import { useRouter } from "next/navigation";
-import { setToken } from "../../lib/gameStore";
+import { setField } from "../../lib/gameStore";
 import { ROUTES } from "../../lib/routes";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { LogLine } from "../../components/ui/LogLine";
@@ -12,7 +12,7 @@ export default function Station3Forest() {
   const router = useRouter();
 
   const completeField = () => {
-    setToken("s3_confirmed", true);
+    setField("s3_confirmed", true);
     router.push(ROUTES.s4);
   };
 

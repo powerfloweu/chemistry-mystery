@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { BasicShell } from "../../components/Guard";
 import { PeakPicker } from "../../components/PeakPicker";
 import { validateNmrIntegrals } from "../../lib/validate";
-import { setToken } from "../../lib/gameStore";
+import { setToken, setField } from "../../lib/gameStore";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { Button } from "../../components/ui/Button";
 import { LogLine } from "../../components/ui/LogLine";
@@ -19,8 +19,8 @@ export default function Station1() {
   const submit = () => {
     if (!ok) return;
     setToken("token1", "C");
-    setToken("s1_integralsOk", true);
-    setToken("s1_identityOk", true);
+    setField("s1_integralsOk", true);
+    setField("s1_identityOk", true);
     router.push("/station2");
   };
 

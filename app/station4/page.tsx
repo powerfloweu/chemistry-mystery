@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Guard, BasicShell } from "../../components/Guard";
 import { validateCatalyst } from "../../lib/validate";
-import { setToken } from "../../lib/gameStore";
+import { setToken, setField } from "../../lib/gameStore";
 import { ROUTES } from "../../lib/routes";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { LogLine } from "../../components/ui/LogLine";
@@ -18,8 +18,8 @@ export default function Station4Catalyst() {
   const submit = () => {
     if (!ok) return;
     setToken("token3", "H");
-    setToken("s4_catalystOk", true);
-    setToken("s4_persistentOk", true);
+    setField("s4_catalystOk", true);
+    setField("s4_persistentOk", true);
     router.push(ROUTES.debrief);
   };
 
