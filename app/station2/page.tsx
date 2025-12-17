@@ -3,7 +3,7 @@
 import { Guard, BasicShell } from "@/components/Guard";
 import Folio from "@/components/ui/Folio";
 import { Button } from "@/components/ui/Button";
-import { isDevMode } from "@/lib/gameStore";
+import { isDevMode, readState } from "@/lib/gameStore";
 import { ReactionCoordinate } from "@/components/diagrams/ReactionCoordinate";
 import { setField } from "@/lib/gameStore";
 import { useRouter } from "next/navigation";
@@ -77,6 +77,8 @@ export default function Station2Energetics() {
   const [archiveKey, setArchiveKey] = useState("");
   const [keyVerified, setKeyVerified] = useState(false);
   const [keyError, setKeyError] = useState<string | null>(null);
+  const state = useMemo(() => readState(), []);
+  const hintsUnlocked = !!state.hints_s2_unlocked;
 
   const introLines = useMemo(
     () => [
@@ -342,9 +344,15 @@ export default function Station2Energetics() {
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-700/30"
                   disabled={keyVerified}
                 />
-                <p className="text-xs text-slate-700/70">
-                  Hint: certify the equilibrium outcome and provide a plausible A:K ratio.
-                </p>
+                {!hintsUnlocked ? (
+                  <div className="text-xs text-slate-700/70 rounded-lg border border-slate-900/10 bg-white/40 p-2">
+                    Hint locked — host verification required to view guidance.
+                  </div>
+                ) : (
+                  <div className="text-xs text-slate-700 rounded-lg border border-emerald-200 bg-emerald-50 p-2">
+                    <span className="font-semibold text-emerald-800">Hint unlocked:</span> Certify the equilibrium outcome and provide a plausible A:K ratio.
+                  </div>
+                )}
               </div>
 
               {keyError && (

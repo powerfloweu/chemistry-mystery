@@ -249,12 +249,32 @@ function HostContent() {
         </Folio>
 
         {/* All Stations Checkpoints (merged) */}
-        <Folio label="PROGRESS" title="Player Progress" note="All stations">
+        <Folio label="PROGRESS" title="Player Progress" note="Checkpoints & Hints">
           <Figure caption="Station Completion">
             <div className="space-y-3">
               {/* Station 1 */}
               <div>
-                <p className="text-xs font-semibold text-slate-600 mb-2">Station 1 – NMR</p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold text-slate-600">Station 1 – NMR</p>
+                  <Button
+                    variant="secondary"
+                    onClick={async () => {
+                      try {
+                        await fetch(`/api/session/${encodeURIComponent(sessionCode!)}/progress`, {
+                          method: "POST",
+                          headers: { "content-type": "application/json" },
+                          body: JSON.stringify({ key: "hints_s1_unlocked", value: true }),
+                        });
+                      } catch (err) {
+                        console.error("Failed to unlock hints:", err);
+                      }
+                    }}
+                    className="text-[10px] py-0.5 px-1.5 h-auto"
+                    disabled={data.hints_s1_unlocked}
+                  >
+                    {data.hints_s1_unlocked ? "✓" : "Hints"}
+                  </Button>
+                </div>
                 <div className="space-y-1 pl-3">
                   {[
                     { key: "s1_integralsOk", label: "Integrals" },
@@ -272,7 +292,27 @@ function HostContent() {
 
               {/* Station 2 */}
               <div>
-                <p className="text-xs font-semibold text-slate-600 mb-2">Station 2 – Energetics</p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold text-slate-600">Station 2 – Energetics</p>
+                  <Button
+                    variant="secondary"
+                    onClick={async () => {
+                      try {
+                        await fetch(`/api/session/${encodeURIComponent(sessionCode!)}/progress`, {
+                          method: "POST",
+                          headers: { "content-type": "application/json" },
+                          body: JSON.stringify({ key: "hints_s2_unlocked", value: true }),
+                        });
+                      } catch (err) {
+                        console.error("Failed to unlock hints:", err);
+                      }
+                    }}
+                    className="text-[10px] py-0.5 px-1.5 h-auto"
+                    disabled={data.hints_s2_unlocked}
+                  >
+                    {data.hints_s2_unlocked ? "✓" : "Hints"}
+                  </Button>
+                </div>
                 <div className="space-y-1 pl-3">
                   {[
                     { key: "s2_productOk", label: "Product" },
@@ -293,9 +333,9 @@ function HostContent() {
                 <p className="text-xs font-semibold text-slate-600 mb-2">Station 3 – Field Verification</p>
                 <div className="space-y-2 pl-3">
                   {[
-                    { key: "s3_heat", label: "Heat response" },
-                    { key: "s3_pressure", label: "Pressure response" },
-                    { key: "s3_excess", label: "Excess determination" },
+                    { key: "s3_heat", label: "Heat field" },
+                    { key: "s3_pressure", label: "Pressure field" },
+                    { key: "s3_excess", label: "Excess field" },
                   ].map(({ key, label }) => (
                     <div key={key} className="flex items-center justify-between text-sm">
                       <div className="flex items-center gap-2">
@@ -336,7 +376,27 @@ function HostContent() {
 
               {/* Station 4 */}
               <div>
-                <p className="text-xs font-semibold text-slate-600 mb-2">Station 4 – Catalyst</p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold text-slate-600">Station 4 – Catalyst</p>
+                  <Button
+                    variant="secondary"
+                    onClick={async () => {
+                      try {
+                        await fetch(`/api/session/${encodeURIComponent(sessionCode!)}/progress`, {
+                          method: "POST",
+                          headers: { "content-type": "application/json" },
+                          body: JSON.stringify({ key: "hints_s4_unlocked", value: true }),
+                        });
+                      } catch (err) {
+                        console.error("Failed to unlock hints:", err);
+                      }
+                    }}
+                    className="text-[10px] py-0.5 px-1.5 h-auto"
+                    disabled={data.hints_s4_unlocked}
+                  >
+                    {data.hints_s4_unlocked ? "✓" : "Hints"}
+                  </Button>
+                </div>
                 <div className="space-y-1 pl-3">
                   {[
                     { key: "s4_catalystOk", label: "Catalyst" },
@@ -349,6 +409,39 @@ function HostContent() {
                       <span className="text-slate-700">{label}</span>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Final Gate */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold text-slate-600">Final Lock</p>
+                  <Button
+                    variant="secondary"
+                    onClick={async () => {
+                      try {
+                        await fetch(`/api/session/${encodeURIComponent(sessionCode!)}/progress`, {
+                          method: "POST",
+                          headers: { "content-type": "application/json" },
+                          body: JSON.stringify({ key: "hints_final_unlocked", value: true }),
+                        });
+                      } catch (err) {
+                        console.error("Failed to unlock hints:", err);
+                      }
+                    }}
+                    className="text-[10px] py-0.5 px-1.5 h-auto"
+                    disabled={data.hints_final_unlocked}
+                  >
+                    {data.hints_final_unlocked ? "✓" : "Hints"}
+                  </Button>
+                </div>
+                <div className="space-y-1 pl-3">
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className={`text-lg ${data["final_ok" as keyof SessionData] ? "text-emerald-700" : "text-slate-400"}`}>
+                      {data["final_ok" as keyof SessionData] ? "✓" : "○"}
+                    </span>
+                    <span className="text-slate-700">Complete</span>
+                  </div>
                 </div>
               </div>
 
@@ -385,19 +478,6 @@ function HostContent() {
                   </div>
                 </div>
               </div>
-
-              {/* Final Gate */}
-              <div>
-                <p className="text-xs font-semibold text-slate-600 mb-2">Final</p>
-                <div className="space-y-1 pl-3">
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className={`text-lg ${data["final_ok" as keyof SessionData] ? "text-emerald-700" : "text-slate-400"}`}>
-                      {data["final_ok" as keyof SessionData] ? "✓" : "○"}
-                    </span>
-                    <span className="text-slate-700">Complete</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </Figure>
         </Folio>
@@ -420,7 +500,9 @@ function HostContent() {
 
               <div className="bg-emerald-50 border border-emerald-200 rounded p-3">
                 <p className="text-xs font-semibold text-emerald-900 mb-2">Station 3 – Field Verification</p>
-                <p className="text-xs text-emerald-700">Visit all three field sites (heat, pressure, excess) and confirm</p>
+                <p className="text-xs text-emerald-800 font-mono mb-1">Heat › Thermodynamic product</p>
+                <p className="text-xs text-emerald-800 font-mono mb-1">Pressure › Fewer accessible states</p>
+                <p className="text-xs text-emerald-800 font-mono">Excess › Toward consumption of the excess</p>
               </div>
 
               <div className="bg-emerald-50 border border-emerald-200 rounded p-3">

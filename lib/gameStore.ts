@@ -28,6 +28,12 @@ export type GameState = {
   // Reveal question gate
   reveal_question_verified?: boolean;
 
+  // Hint unlocks (host-controlled)
+  hints_s1_unlocked?: boolean;
+  hints_s2_unlocked?: boolean;
+  hints_s4_unlocked?: boolean;
+  hints_final_unlocked?: boolean;
+
   // Dev mode
   devMode?: boolean;
 

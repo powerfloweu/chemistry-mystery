@@ -7,7 +7,6 @@ import { ROUTES } from "@/lib/routes";
 import Folio from "@/components/ui/Folio";
 import { Button } from "@/components/ui/Button";
 import { readState, setField, isDevMode } from "@/lib/gameStore";
-import { validateFinalLockDerived, normalizeText } from "@/lib/validate";
 
 function useTypewriter(lines: string[], enabled: boolean, speedMs = 18, pauseMs = 420) {
   const [out, setOut] = useState<string[]>([]);
@@ -72,7 +71,6 @@ function routeGallery(): string {
 }
 
 function normToken(s: string): string {
-  // normalize for lock comparison: trim, collapse spaces, uppercase, remove separators
   return (s || "")
     .trim()
     .toUpperCase()
@@ -83,42 +81,31 @@ export default function FinalLock() {
   const router = useRouter();
 
   const st = useMemo(() => readState(), []);
-  const token1 = (st.token1 || "C").toString();
-  const token2 = (st.token2 || "8").toString();
-  const token3 = (st.token3 || "H").toString();
   const player = (st.playerName || "Researcher").toString();
+  const hintsUnlocked = !!st.hints_final_unlocked;
 
   const [a, setA] = useState("");
   const [b, setB] = useState("");
   const [c, setC] = useState("");
+  const [d, setD] = useState("");
 
-  // Primary lock rule: match stored tokens (C–8–H)
-  const tokenOk = useMemo(() => {
-    const A = normToken(a);
-    const B = normToken(b);
-    const C = normToken(c);
-    return A === normToken(token1) && B === normToken(token2) && C === normToken(token3);
-  }, [a, b, c, token1, token2, token3]);
+  const ok = useMemo(() => {
+    const combined = normToken(`${a}${b}${c}${d}`);
+    return combined === "C8H8";
+  }, [a, b, c, d]);
 
-  // Legacy fallback: accept the older derived validator too (helps if tokens were generated differently)
-  const legacyOk = useMemo(() => validateFinalLockDerived(a, b, c), [a, b, c]);
-
-  const ok = tokenOk || legacyOk;
-
-  // entry log
   const lines = useMemo(
     () => [
-      "FINAL ACCESS // THREE-TOKEN GATE",
+      "FINAL ACCESS // LOCKED GATE",
       `Investigator: ${player}`,
       "Record integrity confirmed. No additional measurements required.",
-      "A final gate remains. Provide the three-part key in order.",
+      "A final gate remains. Provide the final key to proceed.",
     ],
     [player]
   );
 
   const { out, done } = useTypewriter(lines, true);
 
-  // “seal sets” micro-delay before enabling unlock
   const [ready, setReady] = useState(false);
   const [justUnlocked, setJustUnlocked] = useState(false);
 
@@ -144,6 +131,7 @@ export default function FinalLock() {
         setA((prev) => (prev ? prev : "dev"));
         setB((prev) => (prev ? prev : "dev"));
         setC((prev) => (prev ? prev : "dev"));
+        setD((prev) => (prev ? prev : "dev"));
         setField("final_ok", true);
         router.replace(routeGallery());
       }
@@ -196,15 +184,11 @@ export default function FinalLock() {
             </div>
           </div>
 
-          <Folio
-            label="GATE"
-            title="Three-part key"
-            note="Enter the three tokens in sequence. Formatting is ignored."
-          >
+          <Folio label="GATE" title="Final key" note="Enter the final key. Formatting is ignored.">
             <div className="space-y-4">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-slate-700">Token 1</label>
+                  <label className="text-xs font-medium text-slate-700">Entry 1</label>
                   <input
                     className="w-full rounded-xl border border-slate-900/15 bg-white/60 px-4 py-3 text-center text-lg text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                     value={a}
@@ -216,7 +200,7 @@ export default function FinalLock() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-slate-700">Token 2</label>
+                  <label className="text-xs font-medium text-slate-700">Entry 2</label>
                   <input
                     className="w-full rounded-xl border border-slate-900/15 bg-white/60 px-4 py-3 text-center text-lg text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                     value={b}
@@ -228,7 +212,7 @@ export default function FinalLock() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-slate-700">Token 3</label>
+                  <label className="text-xs font-medium text-slate-700">Entry 3</label>
                   <input
                     className="w-full rounded-xl border border-slate-900/15 bg-white/60 px-4 py-3 text-center text-lg text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
                     value={c}
@@ -238,14 +222,35 @@ export default function FinalLock() {
                     autoCapitalize="characters"
                   />
                 </div>
-              </div>
 
-              <div className="rounded-xl border border-slate-900/10 bg-white/40 p-3">
-                <div className="text-[11px] text-slate-700/70">Note</div>
-                <div className="text-sm leading-relaxed text-slate-800">
-                  This gate verifies internal consistency only. It will not reveal the terminal objective until opened.
+                <div className="space-y-2">
+                  <label className="text-xs font-medium text-slate-700">Entry 4</label>
+                  <input
+                    className="w-full rounded-xl border border-slate-900/15 bg-white/60 px-4 py-3 text-center text-lg text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
+                    value={d}
+                    onChange={(e) => setD(e.target.value)}
+                    placeholder="—"
+                    inputMode="text"
+                    autoCapitalize="characters"
+                  />
                 </div>
               </div>
+
+              {!hintsUnlocked ? (
+                <div className="rounded-xl border border-slate-900/10 bg-white/40 p-3">
+                  <div className="text-[11px] text-slate-700/70">Hint locked</div>
+                  <div className="text-sm leading-relaxed text-slate-800">
+                    Host verification required to view any hint for this gate.
+                  </div>
+                </div>
+              ) : (
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3">
+                  <div className="text-xs font-semibold text-emerald-800 mb-1">Hint unlocked:</div>
+                  <div className="text-sm leading-relaxed text-slate-800">
+                    Which molecular formula fits an aromatic record with eight carbons, eight hydrogens, and no heteroatoms?
+                  </div>
+                </div>
+              )}
 
               {isDevMode() ? (
                 <div className="text-[11px] text-amber-800/80">(Dev mode enabled)</div>
@@ -261,11 +266,11 @@ export default function FinalLock() {
                   : "Key mismatch"}
               </Button>
 
-              {!ok && (a || b || c) && (
+              {!ok && (a || b || c || d) && (
                 <div className="rounded-lg border border-slate-900/10 bg-white/50 p-3">
                   <div className="text-xs font-medium text-slate-800">NOT VERIFIED</div>
                   <div className="text-xs text-slate-700/70 mt-1">
-                    Re-check the three tokens in order. Hyphens and spaces are ignored.
+                    Re-check the key. Hyphens and spaces are ignored.
                   </div>
                 </div>
               )}

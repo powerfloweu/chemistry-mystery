@@ -37,22 +37,22 @@ export function Button({
       background: 'linear-gradient(to bottom, #b45309, #92400e)',
       fontFamily: 'Georgia, "Times New Roman", serif',
       letterSpacing: '0.04em',
-      color: '#b68a2c',
-      textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+      color: '#d4af37',
+      textShadow: '0 1px 0 #3d2817, 0 0 12px rgba(212,175,55,0.8)',
     },
     secondary: {
       background: 'linear-gradient(to bottom, #fef3c7, #fde68a)',
       fontFamily: 'Georgia, "Times New Roman", serif',
       letterSpacing: '0.04em',
-      color: '#b68a2c',
-      textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+      color: '#92400e',
+      textShadow: '0 1px 2px rgba(255,255,255,0.8)',
     },
     ghost: {
       background: 'linear-gradient(to bottom, #fde68a, #fcd34d)',
       fontFamily: 'Georgia, "Times New Roman", serif',
       letterSpacing: '0.04em',
-      color: '#b68a2c',
-      textShadow: '0 1px 0 #5b4213, 0 0 18px rgba(182,138,44,0.65)',
+      color: '#92400e',
+      textShadow: '0 1px 2px rgba(255,255,255,0.8)',
     },
   };
 

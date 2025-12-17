@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Guard, BasicShell } from "../../components/Guard";
 import { validateCatalyst } from "../../lib/validate";
-import { setToken, setField, isDevMode } from "@/lib/gameStore";
+import { setToken, setField, isDevMode, readState } from "@/lib/gameStore";
 import { ROUTES } from "../../lib/routes";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { LogLine } from "../../components/ui/LogLine";
@@ -70,6 +70,8 @@ function useTypewriter(lines: string[], enabled: boolean, speedMs = 18, pauseMs 
 export default function Station4Catalyst() {
   const router = useRouter();
   const [ans, setAns] = useState("");
+  const state = useMemo(() => readState(), []);
+  const hintsUnlocked = !!state.hints_s4_unlocked;
   const ok = useMemo(() => validateCatalyst(ans), [ans]);
 
   const lines = useMemo(
@@ -185,7 +187,6 @@ export default function Station4Catalyst() {
               "For each species appearing in any intermediate: does it reappear unchanged in a later step?",
               "If yes → catalyst. If no → reagent or solvent. Enter only the catalyst.",
             ]}
-            hint="Look for a species that is used and later returned. If it cancels in the net equation, it is a catalyst."
           >
             <div className="space-y-4">
              <div className="rounded-xl border border-slate-900/10 bg-white/35 p-3">
@@ -262,6 +263,18 @@ export default function Station4Catalyst() {
               </Button>
             </div>
           </StoryCard>
+
+          {!hintsUnlocked ? (
+            <div className="rounded-xl border border-slate-900/10 bg-white/40 p-3 text-sm text-slate-800">
+              <div className="text-xs font-semibold text-slate-700 mb-1">Hint locked</div>
+              Host verification required to view any hints for this station.
+            </div>
+          ) : (
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-slate-800">
+              <div className="text-xs font-semibold text-emerald-800 mb-1">Hint unlocked:</div>
+              Look for a species that is used and later returned. If it cancels in the net equation, it is a catalyst.
+            </div>
+          )}
         </div>
       </BasicShell>
     </Guard>

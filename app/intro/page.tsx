@@ -30,6 +30,9 @@ export default function IntroPage() {
           note={STORY.intro.subtitle}
         >
           <div className="space-y-4 text-sm leading-relaxed text-slate-800/85">
+            <audio controls autoPlay loop className="w-full mb-4">
+              <source src="/audio/intro.mp3" type="audio/mpeg" />
+            </audio>
             <Figure caption="Archival advisory: orbital symmetry constraints may apply">
               <div className="space-y-3">
                 {STORY.intro.sections.map((p, i) => (

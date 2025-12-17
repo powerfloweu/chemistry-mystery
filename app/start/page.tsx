@@ -251,7 +251,17 @@ function StartContent() {
 
   return (
     <BasicShell title="Chemistry Mystery" subtitle="You have been invited to solve a" description="A rare type of bond has been reported.">
-      <div className="space-y-5 animate-fadeIn">
+      <div 
+        className="space-y-5 animate-fadeIn"
+        style={{
+          backgroundImage: 'url(/images/parchment.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '0.5rem',
+          padding: '1.5rem',
+          margin: '-1.5rem',
+        }}
+      >
         <div className="absolute top-2 right-0 translate-x-3 z-40">
           <WaxSealImage
             broken={started}

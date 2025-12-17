@@ -101,8 +101,16 @@ export function BasicShell({
 
             <section>{children}</section>
 
-            <footer className="mt-10 pt-6 border-t border-black/10 text-center text-xs opacity-60">
-              Field Notes Interface
+            <footer className="mt-10 pt-6 border-t border-black/10 text-center opacity-70">
+              <span style={{
+                fontFamily: 'Courier New, monospace',
+                fontSize: '0.875rem',
+                fontWeight: '600',
+                letterSpacing: '0.05em',
+                color: '#92400e'
+              }}>
+                Field Notes Interface
+              </span>
             </footer>
           </div>
         </div>

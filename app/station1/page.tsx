@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { BasicShell } from "@/components/Guard";
 import Folio from "@/components/ui/Folio";
 import { Button } from "@/components/ui/Button";
-import { NmrSpectrum } from "@/components/ui/NmrSpectrum";
-import { setField, isDevMode } from "@/lib/gameStore";
+import { setField, isDevMode, readState } from "@/lib/gameStore";
 
 function useTypewriter(
   lines: string[],
@@ -76,7 +75,8 @@ export default function Station1() {
   const [boot, setBoot] = useState(true);
   const [answer, setAnswer] = useState("");
   const [verified, setVerified] = useState(false);
-  const [showHint, setShowHint] = useState(false);
+  const state = useMemo(() => readState(), []);
+  const hintsUnlocked = !!state.hints_s1_unlocked;
 
   const lines = useMemo(
     () => [
@@ -263,9 +263,11 @@ export default function Station1() {
 
         {/* --- NMR spectrum --- */}
         <div className="space-y-2">
-          <div className="rounded-lg border border-slate-900/10 bg-white shadow-md p-2">
-            <NmrSpectrum />
-          </div>
+          <img
+            src="/images/nmr_parchment.png"
+            alt="¹H NMR spectrum"
+            className="rounded-lg border border-slate-900/10 bg-white shadow-md"
+          />
           <p className="text-xs text-slate-600">
             ¹H NMR (400 MHz, CDCl₃) — archive copy
           </p>
@@ -299,21 +301,19 @@ export default function Station1() {
             </div>
 
             <div className="pt-1">
-              <button
-                type="button"
-                onClick={() => setShowHint((v) => !v)}
-                className="text-xs underline decoration-slate-400 underline-offset-4 text-slate-700 hover:text-slate-900"
-              >
-                {showHint ? "Hide hint" : "Need a hint?"}
-              </button>
-
-              {showHint ? (
-                <div className="mt-2 rounded-lg border border-slate-900/10 bg-white/50 p-3 text-xs text-slate-700">
+              {!hintsUnlocked ? (
+                <div className="rounded-lg border border-slate-900/10 bg-white/45 p-3 text-xs text-slate-700 flex items-center justify-between">
+                  <span className="font-semibold text-slate-800">Hint locked</span>
+                  <span className="text-[11px] text-slate-600">Host verification required to view hints.</span>
+                </div>
+              ) : (
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-xs text-slate-700">
+                  <span className="font-semibold text-emerald-800 block mb-1">Hint unlocked:</span>
                   Start with the aromatic region: ask whether it collapses into a small number of repeated patterns.
                   Then scan the aliphatic region for a compact group signal that could belong to a substituent.
                   Write your key as a short, pattern-based sentence.
                 </div>
-              ) : null}
+              )}
             </div>
 
             <div className="space-y-2 pt-2">
@@ -378,7 +378,6 @@ export default function Station1() {
               setAnswer("");
               setVerified(false);
               setBoot(true);
-              setShowHint(false);
             }}
             title="Reset this station"
           >

@@ -180,36 +180,39 @@ export default function Station3Hub() {
               </p>
               <div className="space-y-2">
                 {/* Heat */}
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/5 border border-slate-900/10">
-                  <div className="flex-1 flex items-center gap-2">
-                    <span className="text-lg">🔥</span>
-                    <span className="text-sm font-semibold text-slate-800">Heat</span>
+                <div className="flex items-start justify-between p-3 rounded-lg bg-slate-900/5 border border-slate-900/10">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">🔥</span>
+                      <span className="text-sm font-semibold text-slate-800">Heat field</span>
+                    </div>
+                    <p className="text-xs text-slate-600 italic pl-6">Under sustained heating, which outcome dominates at equilibrium?</p>
                   </div>
-                  <span className="text-lg">
-                    {heat ? "✅" : "❌"}
-                  </span>
+                  <span className="text-lg ml-2">{heat ? "✅" : "○"}</span>
                 </div>
 
                 {/* Pressure */}
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/5 border border-slate-900/10">
-                  <div className="flex-1 flex items-center gap-2">
-                    <span className="text-lg">⚖️</span>
-                    <span className="text-sm font-semibold text-slate-800">Pressure</span>
+                <div className="flex items-start justify-between p-3 rounded-lg bg-slate-900/5 border border-slate-900/10">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">⚖️</span>
+                      <span className="text-sm font-semibold text-slate-800">Pressure field</span>
+                    </div>
+                    <p className="text-xs text-slate-600 italic pl-6">Under increased pressure, which configuration is favored at equilibrium?</p>
                   </div>
-                  <span className="text-lg">
-                    {pressure ? "✅" : "❌"}
-                  </span>
+                  <span className="text-lg ml-2">{pressure ? "✅" : "○"}</span>
                 </div>
 
                 {/* Excess */}
-                <div className="flex items-center justify-between p-3 rounded-lg bg-slate-900/5 border border-slate-900/10">
-                  <div className="flex-1 flex items-center gap-2">
-                    <span className="text-lg">💧</span>
-                    <span className="text-sm font-semibold text-slate-800">Excess</span>
+                <div className="flex items-start justify-between p-3 rounded-lg bg-slate-900/5 border border-slate-900/10">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">💧</span>
+                      <span className="text-sm font-semibold text-slate-800">Excess field</span>
+                    </div>
+                    <p className="text-xs text-slate-600 italic pl-6">Upon introduction of an excess component, which direction is favored at equilibrium?</p>
                   </div>
-                  <span className="text-lg">
-                    {excess ? "✅" : "❌"}
-                  </span>
+                  <span className="text-lg ml-2">{excess ? "✅" : "○"}</span>
                 </div>
               </div>
 
