@@ -1,87 +1,390 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BasicShell } from "../../components/Guard";
-import { PeakPicker } from "../../components/PeakPicker";
-import { validateNmrIntegrals } from "../../lib/validate";
-import { setToken, setField } from "../../lib/gameStore";
-import { StoryCard } from "../../components/ui/StoryCard";
-import { Button } from "../../components/ui/Button";
-import { LogLine } from "../../components/ui/LogLine";
+import { BasicShell } from "@/components/Guard";
+import Folio from "@/components/ui/Folio";
+import { Button } from "@/components/ui/Button";
+import { NmrSpectrum } from "@/components/ui/NmrSpectrum";
+import { setField, isDevMode } from "@/lib/gameStore";
+
+function useTypewriter(
+  lines: string[],
+  enabled: boolean,
+  speedMs = 18,
+  pauseMs = 420
+) {
+  const [out, setOut] = useState<string[]>([]);
+  const idxRef = useRef({ line: 0, char: 0 });
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    let cancelled = false;
+    setOut([]);
+    idxRef.current = { line: 0, char: 0 };
+
+    const tick = async () => {
+      while (!cancelled) {
+        const { line, char } = idxRef.current;
+        if (line >= lines.length) return;
+
+        const full = lines[line];
+        const nextChar = char + 1;
+
+        setOut((prev) => {
+          const next = [...prev];
+          next[line] = full.slice(0, nextChar);
+          return next;
+        });
+
+        idxRef.current = { line, char: nextChar };
+
+        if (nextChar >= full.length) {
+          await new Promise((r) => setTimeout(r, pauseMs));
+          idxRef.current = { line: line + 1, char: 0 };
+          setOut((prev) => {
+            const next = [...prev];
+            if (next.length < line + 2) next.push("");
+            return next;
+          });
+        } else {
+          await new Promise((r) => setTimeout(r, speedMs));
+        }
+      }
+    };
+
+    tick();
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled, lines, speedMs, pauseMs]);
+
+  const done =
+    out.length >= lines.length &&
+    out.every((l, i) => {
+      const target = lines[i] ?? "";
+      return (l ?? "").length === target.length;
+    });
+
+  return { out, done };
+}
 
 export default function Station1() {
   const router = useRouter();
-  const [vals, setVals] = useState<number[]>([0, 0, 0, 0, 0]);
-  const ok = useMemo(() => validateNmrIntegrals(vals), [vals]);
-  const filled = useMemo(() => vals.every((v) => v > 0), [vals]);
 
-  const submit = () => {
-    if (!ok) return;
-    setToken("token1", "C");
-    setField("s1_integralsOk", true);
-    setField("s1_identityOk", true);
-    router.push("/station2");
+  const [boot, setBoot] = useState(true);
+  const [answer, setAnswer] = useState("");
+  const [verified, setVerified] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  const lines = useMemo(
+    () => [
+      "ENTRY 01 — SAMPLE REGISTRATION",
+      "Module: ¹H NMR (400 MHz, CDCl₃)",
+      "Objective: confirm Sample B identity via spectral fingerprint",
+      "Note: structural drawings removed from the archive copy.",
+      "Method: read invariant features; ignore noise; do not overfit.",
+      "Proceed to field protocol.",
+    ],
+    []
+  );
+
+  const { out, done } = useTypewriter(lines, boot);
+
+  // If dev mode is active, auto-verify to allow proceeding without entering input.
+  useEffect(() => {
+    try {
+      if (isDevMode()) {
+        setVerified(true);
+      }
+    } catch {}
+  }, []);
+
+  // --- Answer logic (hard mode): require a multi-constraint fingerprint.
+  // The user must provide a *structured* archive key that encodes:
+  // 1) para-disubstituted aromatic ring (explicit)
+  // 2) A2B2 / two aromatic sets / 4H aromatic pattern (explicit)
+  // 3) methyl (CH3) present (explicit)
+  // Optional (bonus but not required): mention ~2.2–2.5 ppm for methyl.
+  const normalized = answer.trim().toLowerCase();
+  const compact = normalized.replace(/\s+/g, " ");
+
+  const hasPara = compact.includes("para") || compact.includes("p-") || compact.includes("p ");
+  const hasDisub =
+    compact.includes("disub") ||
+    compact.includes("disubstit") ||
+    compact.includes("di-sub") ||
+    compact.includes("di sub");
+
+  const hasAromatic =
+    compact.includes("aromatic") ||
+    compact.includes("benzene") ||
+    compact.includes("phenyl") ||
+    compact.includes("aryl") ||
+    compact.includes("ar");
+
+  const hasMethyl = compact.includes("methyl") || compact.includes("ch3") || compact.includes("me");
+
+  // Aromatic pattern requirement: accept any of these explicit fingerprints.
+  const hasA2B2 = compact.includes("a2b2") || compact.includes("a₂b₂");
+  const hasTwoSets = compact.includes("two") && (compact.includes("doublet") || compact.includes("sets") || compact.includes("signals"));
+  const hasAromatic4H = compact.includes("4h") && (compact.includes("aromatic") || compact.includes("aryl") || compact.includes("phenyl") || compact.includes("benzene"));
+
+  // Strict: para + disubstituted + aromatic + (A2B2 OR (two sets) OR (4H aromatic)) + methyl
+  const isCorrect = hasPara && hasDisub && hasAromatic && (hasA2B2 || hasTwoSets || hasAromatic4H) && hasMethyl;
+
+  // Dev test input
+  const isTestInput = normalized === "dev" || normalized === "test";
+
+  const handleCheck = () => {
+    // Always capture the attempt, even if incomplete/wrong
+    (setField as unknown as (k: string, v: unknown) => void)(
+      "station1_attempt",
+      {
+        archiveKey: answer.trim(),
+        constraints: {
+          para: hasPara,
+          disubstituted: hasDisub,
+          aromatic: hasAromatic,
+          a2b2_or_equiv: hasA2B2 || hasTwoSets || hasAromatic4H,
+          methyl: hasMethyl,
+        },
+        correct: isCorrect,
+        ts: Date.now(),
+      }
+    );
+
+    if (!isCorrect && !isTestInput) return;
+    setVerified(true);
+
+    // Store successful completion
+    (setField as unknown as (k: string, v: unknown) => void)(
+      "station1_nmr_fingerprint",
+      {
+        archiveKey: answer.trim(),
+        constraints: {
+          para: hasPara,
+          disubstituted: hasDisub,
+          aromatic: hasAromatic,
+          a2b2_or_equiv: hasA2B2 || hasTwoSets || hasAromatic4H,
+          methyl: hasMethyl,
+        },
+        ts: Date.now(),
+      }
+    );
   };
 
   return (
-    <BasicShell title="Bond Stability Analysis" subtitle="Entry 01 • Sample Registration">
-      <div className="space-y-4">
-        <LogLine>
-          A sealed vial labeled <span className="font-medium">Sample B</span> was recovered. Composition unknown. Begin identity confirmation by ¹H NMR.
-        </LogLine>
+    <BasicShell
+      title="NMR"
+      subtitle="Field Notes Interface — Station 1"
+    >
+      <div className="space-y-6">
+        {/* --- Boot / Typewriter --- */}
+        <Folio
+          label="ARCHIVE BOOT"
+          title="Recovered System Log"
+          note="Read-only. Output is intentionally minimal."
+        >
+          <div className="font-mono text-[13px] leading-relaxed text-slate-900">
+            {out.map((l, i) => (
+              <div key={i} className="whitespace-pre-wrap">
+                <span className="text-emerald-900/70 mr-2">▸</span>
+                {l}
+                {i === out.length - 1 && !done ? (
+                  <span className="inline-block w-[8px] ml-1 animate-pulse">
+                    ▍
+                  </span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </Folio>
 
-        <div className="rounded-lg border border-amber-700/30 bg-amber-50/40 p-4 space-y-3">
-          <div className="text-sm text-slate-700 space-y-2">
-            <p className="font-semibold text-slate-800">Why NMR?</p>
+        {/* --- Why NMR (the "this used to look good" block) --- */}
+        <Folio
+          label="WHY NMR"
+          title="Why this instrument survives bad evidence"
+          note="The archive does not trust stories. It trusts ratios."
+        >
+          <div className="space-y-3 text-sm leading-relaxed text-slate-800">
             <p>
-              Structural identity cannot be inferred from formula alone. ¹H NMR integration reveals the true count and environment of hydrogen atoms. When archival samples are degraded or impure, the spectrum becomes noisy—extraneous peaks appear, baselines shift, coupling patterns blur. Identity must be reconstructed from the signal that persists: integral ratios.
+              Structural identity cannot be inferred from a formula alone.
+              <span className="font-medium"> ¹H NMR counts hydrogens</span>
+              <span> and reports their chemical environments.</span>
             </p>
             <p>
-              Your task: extract the integral pattern in order of increasing chemical shift (δ). This sequence uniquely identifies Sample B and permits verification against the archived standard.
+              When archival samples degrade, the spectrum gets messy:
+              baseline drift, extra peaks, solvent artifacts.
+              <span className="font-medium"> The fingerprint still persists</span>
+              in the regions that remain readable.
+            </p>
+            <p className="font-medium">
+              Your job is not to name the compound. Your job is to name the
+              constraint it proves.
             </p>
           </div>
+        </Folio>
+
+        {/* --- Protocol --- */}
+        <Folio
+          label="FIELD PROTOCOL"
+          title="Station 1 — ¹H NMR Fingerprint"
+          note="Ignore splitting. Focus on pattern and invariants."
+        >
+          <div className="space-y-4 text-sm leading-relaxed text-slate-800">
+            <div className="rounded-lg border border-slate-900/10 bg-white/50 p-3">
+              <div className="text-xs font-semibold tracking-widest text-slate-700">
+                PROCEDURE
+              </div>
+              <ol className="mt-2 list-decimal pl-5">
+                <li>
+                  Treat the spectrum as a crime scene photo: don’t embellish.
+                </li>
+                <li>
+                  Identify the <span className="font-medium">aromatic symmetry</span>: does it collapse into
+                  <span className="font-medium"> two equivalent aromatic sets</span>?
+                </li>
+                <li>
+                  Study the integration pattern and determine what structure fits.
+                </li>
+                <li>
+                  Confirm a <span className="font-medium">methyl (CH₃)</span> signature consistent with a ring substituent.
+                  If you can, note the approximate region (~2.2–2.5 ppm).
+                </li>
+                <li>
+                  Write a structured archive key that encodes all constraints in one line.
+                </li>
+              </ol>
+            </div>
+          </div>
+        </Folio>
+
+        {/* --- NMR spectrum --- */}
+        <div className="space-y-2">
+          <div className="rounded-lg border border-slate-900/10 bg-white shadow-md p-2">
+            <NmrSpectrum />
+          </div>
+          <p className="text-xs text-slate-600">
+            ¹H NMR (400 MHz, CDCl₃) — archive copy
+          </p>
         </div>
 
-        <LogLine>
-          Note: the archive key will be generated only after field confirmation. Certain lines are redacted: ██████.
-        </LogLine>
-
-        <StoryCard
-          title="Station 1 — ¹H NMR Integration"
-          objective="Confirm Sample B by extracting the integral pattern from the archived spectrum. Noise and redaction are present—use the signal that remains."
-          why="Integration ratios are invariant under noise and solvent interference. They uniquely encode molecular structure, regardless of archive degradation."
-          procedure={[
-            "Examine the spectrum. Redacted regions are marked ██████. Ignore them.",
-            "Read each signal's integral (peak area) in order of increasing chemical shift δ.",
-            "Convert integrals to the lowest whole-number ratio (1H, 2H, 3H, etc.).",
-            "Submit the sequence to register and verify Sample B.",
-          ]}
-          hint="Ignore peak splitting and multiplicity. Use only the integral ratios. Order left-to-right by δ value (upfield to downfield)."
+        {/* --- Task / Input --- */}
+        <Folio
+          label="INTERPRETATION"
+          title="Register the fingerprint"
+          note="One phrase. No mechanism. No structure drawing."
         >
-          <div className="space-y-4">
-            <div className="rounded-xl border border-slate-900/10 bg-white/40 p-4 text-sm space-y-2">
-              <p className="text-slate-700 font-semibold">Archived Spectrum (Sample B)</p>
-              <p className="text-slate-600 text-xs">
-                Image: ¹H NMR at 400 MHz in CDCl₃. Some metadata and integration labels are corrupted (shown as ██████). 
-                You must derive the integration pattern by visual inspection.
-              </p>
-              <div className="bg-slate-100 h-40 rounded flex items-center justify-center text-slate-500 text-xs">
-                [NMR Spectrum Placeholder]
+          <div className="space-y-4 text-sm leading-relaxed text-slate-800">
+            <p>
+              This station is not asking you to “solve” the spectrum.
+              It is asking you to certify a single, durable claim:
+            </p>
+            {isDevMode() && (
+              <p className="text-[11px] text-amber-800/80">(Dev mode enabled)</p>
+            )}
+
+            <div className="rounded-lg border border-slate-900/10 bg-white/50 p-3">
+              <div className="text-xs font-semibold tracking-widest text-slate-700">
+                REQUIRED CLAIM
               </div>
+              <p className="mt-2">
+                Provide a fingerprint statement that simultaneously encodes:
+                <span className="font-medium"> the substitution symmetry</span> of the aromatic ring,
+                <span className="font-medium"> the number of dominant aromatic sets</span>,
+                and <span className="font-medium"> the presence of a small alkyl signature</span> consistent with a substituent.
+              </p>
             </div>
 
-            <PeakPicker value={vals} onChange={setVals} />
+            <div className="pt-1">
+              <button
+                type="button"
+                onClick={() => setShowHint((v) => !v)}
+                className="text-xs underline decoration-slate-400 underline-offset-4 text-slate-700 hover:text-slate-900"
+              >
+                {showHint ? "Hide hint" : "Need a hint?"}
+              </button>
 
-            {filled && !ok ? (
-              <p className="text-sm text-slate-700">Sequence rejected. Re-check δ order and integration values.</p>
-            ) : null}
+              {showHint ? (
+                <div className="mt-2 rounded-lg border border-slate-900/10 bg-white/50 p-3 text-xs text-slate-700">
+                  Start with the aromatic region: ask whether it collapses into a small number of repeated patterns.
+                  Then scan the aliphatic region for a compact group signal that could belong to a substituent.
+                  Write your key as a short, pattern-based sentence.
+                </div>
+              ) : null}
+            </div>
 
-            <Button variant="primary" onClick={submit} disabled={!ok} className="w-full">
-              Register Sample B
-            </Button>
+            <div className="space-y-2 pt-2">
+              <label className="text-xs font-medium text-slate-700">
+                Archive Key
+              </label>
+              <input
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder='e.g. "aromatic symmetry + aromatic sets + small alkyl"'
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700/30"
+                disabled={verified}
+              />
+
+              {!verified && answer.length > 0 && !isCorrect && (
+                <p className="text-xs text-slate-600 pt-1">
+                  Incomplete archive key. One or more required constraints are missing.
+                  Keep it short and pattern-based.
+                </p>
+              )}
+
+              {verified && (
+                <p className="text-sm font-medium text-emerald-800 pt-2">
+                  ARCHIVE NOTE — VERIFIED
+                  <br />
+                  Fingerprint registered: aromatic symmetry + dominant sets + substituent signature.
+                </p>
+              )}
+            </div>
           </div>
-        </StoryCard>
+        </Folio>
+
+        {/* --- Controls --- */}
+        <div className="flex gap-3">
+          {!verified ? (
+            <Button
+              variant="primary"
+              onClick={handleCheck}
+              disabled={!answer.trim().length}
+              title="Register your conclusion"
+            >
+              Submit
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={() => {
+                setField("token1", "C");
+                setField("s1_integralsOk", true);
+                setField("s1_identityOk", true);
+                router.push("/station2");
+              }}
+              title="Proceed"
+            >
+              Proceed to Station 2
+            </Button>
+          )}
+
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setAnswer("");
+              setVerified(false);
+              setBoot(true);
+              setShowHint(false);
+            }}
+            title="Reset this station"
+          >
+            Reset
+          </Button>
+        </div>
       </div>
     </BasicShell>
   );

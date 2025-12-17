@@ -12,6 +12,9 @@ export type GameState = {
   s2_conditionOk?: boolean;
 
   // Station 3
+  s3_heat?: boolean;
+  s3_pressure?: boolean;
+  s3_excess?: boolean;
   s3_confirmed?: boolean;
 
   // Station 4
@@ -20,6 +23,13 @@ export type GameState = {
 
   // Final gate
   final_ok?: boolean;
+  debriefSeen?: boolean;
+
+  // Reveal question gate
+  reveal_question_verified?: boolean;
+
+  // Dev mode
+  devMode?: boolean;
 
   // legacy tokens
   token1?: string; // "C"
@@ -29,6 +39,15 @@ export type GameState = {
 
 
 const STORAGE_KEY = "chemMystery:state:v1";
+
+// Cache the dynamic import so we don't re-import on every write
+let sessionSyncPromise: Promise<typeof import("./sessionSync")> | null = null;
+function getSessionSync() {
+  if (!sessionSyncPromise) {
+    sessionSyncPromise = import("./sessionSync");
+  }
+  return sessionSyncPromise;
+}
 
 function isBrowser(): boolean {
   return typeof window !== "undefined" && typeof sessionStorage !== "undefined";
@@ -61,12 +80,39 @@ export function setField<K extends keyof GameState>(key: K, value: GameState[K])
   const prev = readState();
   const next = { ...prev, [key]: value };
   writeState(next);
+  
+  // Sync to server if a session exists (client-side only)
+  if (isBrowser()) {
+    getSessionSync()
+      .then(({ maybeSyncProgress, maybeSyncSnapshot }) => {
+        // Send the changed field for quick UI, and the full snapshot to avoid partial KV states
+        maybeSyncProgress(key as string, value);
+        try { maybeSyncSnapshot(next as any); } catch {}
+      })
+      .catch(() => {
+        // Silently ignore sync/import errors
+      });
+  }
+  
   return next;
 }
 
 export function clearState(): void {
   if (!isBrowser()) return;
   sessionStorage.removeItem(STORAGE_KEY);
+}
+
+export function initDevMode(): void {
+  if (!isBrowser()) return;
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("dev") === "true") {
+    setField("devMode", true);
+  }
+}
+
+export function isDevMode(): boolean {
+  if (!isBrowser()) return false;
+  return !!readState().devMode;
 }
 
 export function hasToken(key: TokenKey, expected?: string): boolean {

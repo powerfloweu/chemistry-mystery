@@ -9,8 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/kv": "^3.0.0",
     "next": "16.0.10",
     "puppeteer": "^24.33.0",
+    "qrcode": "^1.5.4",
     "react": "19.2.1",
     "react-dom": "19.2.1"
   },

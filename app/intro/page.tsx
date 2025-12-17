@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { SessionGuard } from "../../components/SessionGuard";
 import { Guard, BasicShell } from "../../components/Guard";
 import Folio from "../../components/ui/Folio";
 import Figure from "../../components/ui/Figure";
@@ -17,7 +18,8 @@ export default function IntroPage() {
   }, []);
 
   return (
-    <Guard require={["playerName"]}>
+    <SessionGuard>
+      <Guard require={["playerName"]}>
       <BasicShell
         title="Recovered Dossier"
         subtitle="Initial Access Granted — Archival Layer Unsealed"
@@ -43,11 +45,10 @@ export default function IntroPage() {
                 Begin the Protocol
               </Button>
             </div>
-
-            <p className="text-xs text-slate-700/65">{STORY.intro.footnote}</p>
           </div>
         </Folio>
       </BasicShell>
     </Guard>
+    </SessionGuard>
   );
 }

@@ -3,7 +3,7 @@ export const STORY = {
     title: "Sealed Dossier",
     beats: [
       "A protocol surfaced in the Archive, recovered from storage c. 1987. Its provenance is unknown; its structure suggests deliberate concealment.",
-      "It describes a bond so statistically improbable that its formation requires a specific orbital alignment—one that rarely occurs by chance.",
+      "It describes a rare type of bond that has been reported—one whose formation requires a specific orbital alignment to persist.",
       "Verification demands systematic proof: structural identity → thermodynamic persistence → mechanistic catalysis → field reproducibility.",
       "Your background in pericyclic reactions qualifies you uniquely to evaluate whether symmetry constraints support or refute the legend.",
     ],
@@ -19,16 +19,16 @@ intro: {
     "Researchers suspected a quieter law at work—orbital symmetry—governing whether a transformation is permitted at all. The literature is full of cases that are thermally forbidden yet become possible under light, and rearrangements that occur cleanly only when symmetry constraints align (Woodward–Hoffmann rules).",
     "This dossier surfaced without provenance. Only a protocol—structured like field notes—written as if the outcome must be earned rather than guessed. If the legend has any truth in it, it won’t yield to force. It will yield to correct reasoning, careful bookkeeping, and patience.",
   ],
-  footnote: "The system will not reveal the final objective in advance. Proceed by evidence only.",
+  footnote: "",
 },
   station1: {
     title: "Identity Confirmation",
     why: "Before a transformation can be trusted, the subject must be known. ¹H NMR is a fingerprint: it does not persuade—it reveals.",
-    objective: "Confirm the identity signature of Sample B using ¹H NMR integration and a reasoned identity assignment.",
+    objective: "Confirm the identity signature of Sample B using ¹H NMR and structural analysis.",
     procedure: [
-      "Step A: Observe the spectrum and integrate signals in increasing δ order. Register the integral pattern.",
-      "Step B: With the integrals registered, select the candidate structure that matches and provide the reason for your choice.",
-      "Only the accepted rationale will allow progression.",
+      "1. Identify the aromatic symmetry: does it collapse into two equivalent aromatic sets?",
+      "2. Study the integration pattern and determine what structure fits.",
+      "3. Confirm a methyl (CH₃) signature consistent with a ring substituent. If you can, note the approximate region (~2.2–2.5 ppm).",
     ],
     microLore: [
       "In the Archive, identity is the first lock.",
@@ -51,13 +51,13 @@ intro: {
   station3: {
     title: "Field Sequence",
     why: "A conclusion that survives only ideal conditions is not a conclusion. Perturbation reveals what is real.",
-    objective: "Execute a sequential set of perturbations in the field and retrieve the confirmation code.",
+    objective: "Apply three perturbations and observe how the model responds under stress.",
     procedure: [
-      "Proceed to the field site with the device.",
-      "Follow the labeled forks in the prescribed order (sequence matters).",
-      "Complete the sequence; a short confirmation code will be recorded and returned with you.",
+      "Catalysis: presence without ownership. A catalyst is defined operationally: it participates in elementary steps, lowers the activation barrier by providing an alternative pathway, and is regenerated, leaving the overall stoichiometry and equilibrium unchanged.",
+      "Consider this definition. Then step outside—to the field, to the bench, to wherever your chemistry lives. Sometimes solutions need a change of perspective.",
+      "Return when you have verified all three perturbations. The host will confirm each one.",
     ],
-    microLore: ["When conditions change, truth either holds or collapses.", "Sequence is the experiment's contract."],
+    microLore: ["When conditions change, truth either holds or collapses.", "Perspective is not optional."],
   },
 
   station4: {
@@ -67,7 +67,7 @@ intro: {
     procedure: [
       "Inspect the mechanism and note which species is regenerated (the catalyst).",
       "Also note which species appears throughout but is not the catalyst (persistent).",
-      "Enter both selections to complete mechanistic resolution.",
+      "Use a chemical species. Names like 'catalyst' may be rejected.",
     ],
     microLore: ["The catalyst is bookkeeping — it appears and disappears within the mechanism.", "Persistence through steps does not imply catalysis."],
   },
@@ -75,7 +75,7 @@ intro: {
   debrief: {
     title: "Archival Procedure",
     why: "Four independent analytical methods have converged on a consistent structural and mechanistic model. Sample B has been identified through ¹H NMR integration. Thermodynamic stability has been verified under equilibrium conditions and field perturbation. The catalytic mechanism has been resolved. No inconsistencies remain.",
-    objective: "The investigation confirms that all prerequisite constraints are satisfied. However, the model does not predict whether the transformation will occur under ambient conditions. One variable—external to the mechanistic framework—remains unspecified. Access to the sealed repository is authorized.",
+    objective: "The investigation confirms that all prerequisite constraints are satisfied. Access to the sealed repository is authorized.",
   },
 
   finalLock: {

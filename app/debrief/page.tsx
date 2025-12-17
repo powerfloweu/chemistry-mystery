@@ -1,56 +1,221 @@
 "use client";
 
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Guard, BasicShell } from "@/components/Guard";
-import { ROUTES } from "@/lib/routes";
-import { LogLine } from "@/components/ui/LogLine";
-import { Button } from "@/components/ui/Button";
+import { BasicShell } from "@/components/Guard";
 import Folio from "@/components/ui/Folio";
-import { STORY } from "@/lib/story";
+import { Button } from "@/components/ui/Button";
+import { readState, setField } from "@/lib/gameStore";
+import { ROUTES } from "@/lib/routes";
 
-export default function Debrief() {
+function useTypewriter(lines: string[], enabled: boolean, speedMs = 18, pauseMs = 420) {
+  const [out, setOut] = useState<string[]>([]);
+  const idxRef = useRef({ line: 0, char: 0 });
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    let cancelled = false;
+    setOut([]);
+    idxRef.current = { line: 0, char: 0 };
+
+    const tick = async () => {
+      while (!cancelled) {
+        const { line, char } = idxRef.current;
+        if (line >= lines.length) return;
+
+        const full = lines[line];
+        const nextChar = char + 1;
+
+        setOut((prev) => {
+          const next = [...prev];
+          next[line] = full.slice(0, nextChar);
+          return next;
+        });
+
+        idxRef.current = { line, char: nextChar };
+
+        if (nextChar >= full.length) {
+          await new Promise((r) => setTimeout(r, pauseMs));
+          idxRef.current = { line: line + 1, char: 0 };
+          setOut((prev) => {
+            const next = [...prev];
+            if (next.length < line + 2) next.push("");
+            return next;
+          });
+        } else {
+          await new Promise((r) => setTimeout(r, speedMs));
+        }
+      }
+    };
+
+    tick();
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled, lines, speedMs, pauseMs]);
+
+  const done =
+    out.length >= lines.length &&
+    out.every((l, i) => {
+      const target = lines[i] ?? "";
+      return (l ?? "").length === target.length;
+    });
+
+  return { out, done };
+}
+
+function routeFinalLock(): string {
+  const r: any = ROUTES as any;
+  return r.finalLock || r.final_lock || r.lock || "/final-lock";
+}
+
+export default function DebriefPage() {
   const router = useRouter();
+  const st = useMemo(() => readState(), []);
+
+  const player = (st.playerName || "Researcher").toString();
+  const token1 = (st.token1 || "").toString();
+  const token2 = (st.token2 || "").toString();
+  const token3 = (st.token3 || "").toString();
+
+  const lines = useMemo(
+    () => [
+      "DEBRIEF // ARCHIVE CONSOLIDATION",
+      `Investigator: ${player}`,
+      "Status: Internal consistency confirmed across orthogonal tests.",
+      "Preparing final access gate…",
+    ],
+    [player]
+  );
+
+  const { out, done } = useTypewriter(lines, true);
+
+  const [ready, setReady] = useState(false);
+  const [justUnlocked, setJustUnlocked] = useState(false);
+
+  // micro-delay (“seal sets”) after typewriter completes
+  useEffect(() => {
+    if (!done) {
+      setReady(false);
+      setJustUnlocked(false);
+      return;
+    }
+    setJustUnlocked(true);
+    const t1 = setTimeout(() => setReady(true), 900);
+    const t2 = setTimeout(() => setJustUnlocked(false), 1600);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [done]);
+
+  const proceed = () => {
+    if (!ready) return;
+    setField("debriefSeen", true);
+    router.push(routeFinalLock());
+  };
+
+  const summary = useMemo(
+    () => [
+      {
+        k: "Station 1 — NMR",
+        v: "Signal pattern indicates a constrained identity consistent with a symmetric aromatic environment.",
+      },
+      {
+        k: "Station 2 — Energetics",
+        v: "Barrier heights separate formation rate from stability; equilibrium selects the lower-energy basin.",
+      },
+      {
+        k: "Station 3 — Perturbation",
+        v: "Heat, pressure, and stoichiometric excess converge on a single robust outcome.",
+      },
+      {
+        k: "Station 4 — Mechanism",
+        v: "A species participates yet cancels from the net equation: acceleration without ownership.",
+      },
+    ],
+    []
+  );
 
   return (
-    <Guard require={["s1_integralsOk","s1_identityOk","s2_productOk","s2_conditionOk","s3_confirmed","s4_catalystOk","s4_persistentOk"]}>
-      <BasicShell title="RUN COMPLETE" subtitle="All analytical constraints satisfied">
-        <div className="space-y-4">
-          <div className="rounded-lg border border-amber-700/30 bg-amber-50/40 p-4 space-y-3">
-            <div className="text-sm text-slate-700 space-y-2">
-              <p className="font-semibold text-slate-800">Summary of Investigation</p>
-              <p>
-                The protocol has been executed in full. Structural identity was established through spectroscopic analysis. Thermodynamic preference was confirmed under both equilibrium and field conditions. Mechanistic catalysis was resolved with complete bookkeeping.
-              </p>
-              <p>
-                The chemical model is internally consistent and reproducible. All necessary conditions for the reported transformation have been verified. The system satisfies orbital symmetry requirements, energetic favorability, and catalytic accessibility.
-              </p>
-              <p className="font-semibold">
-                However: the model cannot predict initiation. One variable—external to mechanistic constraints—determines whether the transformation proceeds. This variable is not chemical in nature and cannot be optimized experimentally.
-              </p>
+    <BasicShell title="Exploration" subtitle="Debrief • Consolidated record">
+      <div className="space-y-5">
+        <div
+          className={`rounded-xl border border-slate-900/10 bg-white/35 p-4 transition-all duration-700 ${
+            justUnlocked ? "opacity-80" : "opacity-100"
+          }`}
+        >
+          <div className="font-mono text-[13px] leading-relaxed text-slate-900">
+            {out.map((l, i) => (
+              <div key={i} className="whitespace-pre-wrap">
+                <span className="text-emerald-900/70 mr-2">▸</span>
+                {l}
+                {i === out.length - 1 && !done ? (
+                  <span className="inline-block w-[8px] ml-1 animate-pulse">▍</span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Folio
+          label="SUMMARY"
+          title="What the record now supports"
+          note="Each station tested a different axis. Agreement is the point."
+        >
+          <div className="space-y-3">
+            {summary.map((row) => (
+              <div key={row.k} className="rounded-xl border border-slate-900/10 bg-white/40 p-3">
+                <div className="text-xs font-medium text-slate-800">{row.k}</div>
+                <div className="text-sm leading-relaxed text-slate-800 mt-1">{row.v}</div>
+              </div>
+            ))}
+          </div>
+        </Folio>
+
+        <Folio
+          label="RESIDUAL"
+          title="One variable remains"
+          note="Chemistry constrains the pathway. It does not decide intent."
+        >
+          <div className="space-y-2 text-sm leading-relaxed text-slate-800">
+            <p>The archive now satisfies identity, energetics, perturbation robustness, and mechanistic bookkeeping.</p>
+            <p>
+              No further optimization is possible without introducing a non-chemical variable — one that cannot be
+              forced, predicted, or catalyzed.
+            </p>
+          </div>
+        </Folio>
+
+        <div className="rounded-xl border border-slate-900/10 bg-white/35 p-4">
+          <div className="text-sm leading-relaxed text-slate-800">
+            Final access requires the three-token gate.
+            <span className="text-slate-700/70"> Tokens are stored locally on this device.</span>
+          </div>
+
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <div className="rounded-lg border border-slate-900/10 bg-white/50 p-2">
+              <div className="text-[11px] text-slate-700/70">Token 1</div>
+              <div className="font-mono text-sm text-slate-900">{token1 || "—"}</div>
+            </div>
+            <div className="rounded-lg border border-slate-900/10 bg-white/50 p-2">
+              <div className="text-[11px] text-slate-700/70">Token 2</div>
+              <div className="font-mono text-sm text-slate-900">{token2 || "—"}</div>
+            </div>
+            <div className="rounded-lg border border-slate-900/10 bg-white/50 p-2">
+              <div className="text-[11px] text-slate-700/70">Token 3</div>
+              <div className="font-mono text-sm text-slate-900">{token3 || "—"}</div>
             </div>
           </div>
 
-          <Folio label="FIELD NOTE" title="BOND STABILITY ANALYSIS — SUMMARY" note="All analytical objectives met">
-            <LogLine>{STORY.debrief.why}</LogLine>
-
-            <div className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 text-slate-700">
-              <div>Sample</div><div>B</div>
-              <div>Dominant product</div><div>Thermodynamic</div>
-              <div>Catalyst</div><div>H⁺</div>
-              <div>Status</div><div>Completed</div>
-            </div>
-
-            <p className="mt-4 text-sm text-slate-700">{STORY.debrief.objective}</p>
-
-            <div className="mt-4">
-              <Button variant="primary" onClick={() => router.push(ROUTES.archive)}>
-                Proceed to Archive
-              </Button>
-            </div>
-          </Folio>
+          <div className="mt-4">
+            <Button variant="primary" className="w-full" onClick={proceed} disabled={!ready}>
+              {!done ? "Loading record…" : !ready ? "Sealing certification…" : "Proceed to final access"}
+            </Button>
+          </div>
         </div>
-      </BasicShell>
-    </Guard>
+      </div>
+    </BasicShell>
   );
 }
- 

@@ -1,76 +1,264 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Guard, BasicShell } from "../../components/Guard";
 import { validateCatalyst } from "../../lib/validate";
-import { setToken, setField } from "../../lib/gameStore";
+import { setToken, setField, isDevMode } from "@/lib/gameStore";
 import { ROUTES } from "../../lib/routes";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { LogLine } from "../../components/ui/LogLine";
 import { Button } from "../../components/ui/Button";
+
+function useTypewriter(lines: string[], enabled: boolean, speedMs = 18, pauseMs = 420) {
+  const [out, setOut] = useState<string[]>([]);
+  const idxRef = useRef({ line: 0, char: 0 });
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    let cancelled = false;
+    setOut([]);
+    idxRef.current = { line: 0, char: 0 };
+
+    const tick = async () => {
+      while (!cancelled) {
+        const { line, char } = idxRef.current;
+        if (line >= lines.length) return;
+
+        const full = lines[line];
+        const nextChar = char + 1;
+
+        setOut((prev) => {
+          const next = [...prev];
+          next[line] = full.slice(0, nextChar);
+          return next;
+        });
+
+        idxRef.current = { line, char: nextChar };
+
+        if (nextChar >= full.length) {
+          await new Promise((r) => setTimeout(r, pauseMs));
+          idxRef.current = { line: line + 1, char: 0 };
+          setOut((prev) => {
+            const next = [...prev];
+            if (next.length < line + 2) next.push("");
+            return next;
+          });
+        } else {
+          await new Promise((r) => setTimeout(r, speedMs));
+        }
+      }
+    };
+
+    tick();
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled, lines, speedMs, pauseMs]);
+
+  const done =
+    out.length >= lines.length &&
+    out.every((l, i) => {
+      const target = lines[i] ?? "";
+      return (l ?? "").length === target.length;
+    });
+
+  return { out, done };
+}
 
 export default function Station4Catalyst() {
   const router = useRouter();
   const [ans, setAns] = useState("");
   const ok = useMemo(() => validateCatalyst(ans), [ans]);
 
+  const lines = useMemo(
+    () => [
+      "ENTRY 04 // MECHANISTIC RESOLUTION",
+      "A durable outcome still requires an invisible architecture.",
+      "Identify the species that participates in multiple elementary steps but cancels from the net equation.",
+    ],
+    []
+  );
+  const { out: introOut, done: introDone } = useTypewriter(lines, true);
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
+  const [justUnlocked, setJustUnlocked] = useState(false);
+
+  useEffect(() => {
+    if (!introDone) {
+      setReadyToSubmit(false);
+      setJustUnlocked(false);
+      return;
+    }
+
+    // Short “seal sets” delay after the record finishes loading.
+    setJustUnlocked(true);
+    const t1 = setTimeout(() => setReadyToSubmit(true), 900);
+    const t2 = setTimeout(() => setJustUnlocked(false), 1600);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [introDone]);
+
+  // Dev mode: prefill and enable submission
+  useEffect(() => {
+    try {
+      if (isDevMode()) {
+        setAns("dev");
+        setReadyToSubmit(true);
+      }
+    } catch {}
+  }, []);
+
   const submit = () => {
+    // Always capture the attempt
+    (setField as unknown as (k: string, v: unknown) => void)(
+      "station4_attempt",
+      {
+        input: ans.trim(),
+        correct: ok,
+        ts: Date.now(),
+      }
+    );
+
+    if (!readyToSubmit) return;
+    
+    // Only proceed to next page if answer is correct
     if (!ok) return;
+    
     setToken("token3", "H");
     setField("s4_catalystOk", true);
     setField("s4_persistentOk", true);
+    (setField as unknown as (k: string, v: unknown) => void)(
+      "station4_catalyst",
+      {
+        input: ans.trim(),
+        ts: Date.now(),
+      }
+    );
     router.push(ROUTES.debrief);
   };
 
   return (
     <Guard require={["token1", "token2"]}>
-      <BasicShell title="Bond Stability Analysis" subtitle="Entry 04 • Mechanistic Resolution">
+      <BasicShell title="Exploration" subtitle="Station 4 • Mechanistic Resolution">
         <div className="space-y-4">
-          <LogLine>The transformation proceeds efficiently but not autonomously.</LogLine>
+          <div
+            className={`rounded-xl border border-slate-900/10 bg-white/35 p-4 transition-all duration-700 ${
+              justUnlocked ? "opacity-80" : "opacity-100"
+            }`}
+          >
+            <div className="font-mono text-[13px] leading-relaxed text-slate-900">
+              {introOut.map((l, i) => (
+                <div key={i} className="whitespace-pre-wrap">
+                  <span className="text-emerald-900/70 mr-2">▸</span>
+                  {l}
+                  {i === introOut.length - 1 && !introDone ? (
+                    <span className="inline-block w-[8px] ml-1 animate-pulse">▍</span>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
 
-          <div className="rounded-lg border border-amber-700/30 bg-amber-50/40 p-4 space-y-3">
-            <div className="text-sm text-slate-700 space-y-2">
-              <p className="font-semibold text-slate-800">Catalysis: Presence Without Ownership</p>
+          <div className="rounded-xl border border-slate-900/10 bg-white/35 p-4">
+            <div className="space-y-2 text-sm leading-relaxed text-slate-800">
+              <p className="font-medium">Catalysis: presence without ownership</p>
               <p>
-                Some species participate in the mechanism but do not appear in the net equation. They bind reactants, stabilize intermediates, and lower activation barriers. Yet they emerge from each elementary step unchanged—consumed and regenerated.
+                Some species participate in a mechanism yet vanish from the net equation. They enter, change what is
+                possible, and leave without being consumed overall.
               </p>
               <p>
-                This is the definition of a catalyst: a species that influences reaction rate and selectivity without being consumed overall. Catalysts are not reagents. They are not products. They are <span className="font-semibold">persistent presences</span>—available at every step, essential to the pathway, but claiming no stake in the outcome.
-              </p>
-              <p>
-                Mechanistic bookkeeping demands distinguishing catalysts (regenerated) from persistent reagents or solvents (present but not regenerated). Only this precision allows mechanistic verification.
+                A catalyst is identified by bookkeeping: it appears within elementary steps and is regenerated, leaving
+                stoichiometry unchanged.
               </p>
             </div>
           </div>
 
-          <LogLine>Identify the species that accelerates the transformation but leaves the stoichiometry unchanged.</LogLine>
-
           <StoryCard
             title="Station 4 — Mechanistic Resolution"
-            objective="Distinguish the catalyst (regenerated in every step) from reagents and solvents (persistent but not regenerated). Enter the catalyst only."
+            objective="From the mechanism excerpt, identify the species that is returned unchanged and therefore cancels from the net equation. Enter that species only."
             why="Catalysts are the hidden architecture of efficient transformations. Mechanistic accuracy requires identifying what influences the pathway without consuming itself."
             procedure={[
               "Examine the complete reaction mechanism (all elementary steps).",
               "For each species appearing in any intermediate: does it reappear unchanged in a later step?",
               "If yes → catalyst. If no → reagent or solvent. Enter only the catalyst.",
             ]}
-            hint="The catalyst enters the mechanism and exits it unchanged. It is present in at least two steps but absent from the net reaction."
+            hint="Look for a species that is used and later returned. If it cancels in the net equation, it is a catalyst."
           >
             <div className="space-y-4">
-              <div style={{ borderRadius: 8, border: '1px solid rgba(0,0,0,0.06)', background: 'rgba(255,255,255,0.4)', padding: 12, fontSize: 14, color: 'rgba(var(--ink),0.8)' }}>
-                Complete reaction mechanism showing all intermediate species across elementary steps.
-              </div>
+             <div className="rounded-xl border border-slate-900/10 bg-white/35 p-3">
+  <div className="text-xs text-slate-700/70 mb-2">Mechanism excerpt (acid-catalyzed, catalyst cancels in net equation)</div>
+  <div className="w-full overflow-x-auto">
+    <svg viewBox="0 0 980 220" className="min-w-[920px] h-[220px]">
+      {/* background grid feel */}
+      <defs>
+        <pattern id="g" width="22" height="22" patternUnits="userSpaceOnUse">
+          <path d="M22 0H0V22" fill="none" stroke="rgba(15,23,42,0.06)" strokeWidth="1" />
+        </pattern>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(15,23,42,0.6)" />
+        </marker>
+      </defs>
+      <rect x="0" y="0" width="980" height="220" fill="url(#g)" />
+
+      {/* Step boxes */}
+      <g fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" fill="rgba(15,23,42,0.9)">
+        <text x="24" y="28" fontSize="14">Step 1</text>
+        <rect x="18" y="40" width="300" height="68" rx="12" fill="rgba(255,255,255,0.55)" stroke="rgba(15,23,42,0.12)" />
+        <text x="34" y="70" fontSize="14">Carbonyl + (acid)  →  activated</text>
+        <text x="34" y="92" fontSize="13" fill="rgba(15,23,42,0.7)">protonation (reversible)</text>
+
+        <text x="346" y="28" fontSize="14">Step 2</text>
+        <rect x="340" y="40" width="300" height="68" rx="12" fill="rgba(255,255,255,0.55)" stroke="rgba(15,23,42,0.12)" />
+        <text x="356" y="70" fontSize="14">Nu: attacks  →  intermediate</text>
+        <text x="356" y="92" fontSize="13" fill="rgba(15,23,42,0.7)">bond formation</text>
+
+        <text x="668" y="28" fontSize="14">Step 3</text>
+        <rect x="662" y="40" width="300" height="68" rx="12" fill="rgba(255,255,255,0.55)" stroke="rgba(15,23,42,0.12)" />
+        <text x="678" y="70" fontSize="14">Deprotonation  →  product + regenerated species</text>
+        <text x="678" y="92" fontSize="13" fill="rgba(15,23,42,0.7)">catalyst regenerated</text>
+      </g>
+
+      {/* arrows */}
+      <line x1="320" y1="74" x2="340" y2="74" stroke="rgba(15,23,42,0.6)" strokeWidth="2" markerEnd="url(#arr)" />
+      <line x1="642" y1="74" x2="662" y2="74" stroke="rgba(15,23,42,0.6)" strokeWidth="2" markerEnd="url(#arr)" />
+
+      {/* bookkeeping note */}
+      <g fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace">
+        <rect x="18" y="132" width="944" height="70" rx="14" fill="rgba(255,255,255,0.45)" stroke="rgba(15,23,42,0.10)" />
+        <text x="34" y="162" fontSize="13" fill="rgba(15,23,42,0.85)">Bookkeeping test:</text>
+        <text x="190" y="162" fontSize="13" fill="rgba(15,23,42,0.75)">species appears early and late, cancels from the net equation</text>
+      </g>
+    </svg>
+  </div>
+  <div className="mt-2 text-[11px] text-slate-700/65">
+    Instruction: enter the species that is present in the mechanism yet absent from the net reaction.
+  </div>
+</div>
 
               <input
                 value={ans}
                 onChange={(e) => setAns(e.target.value)}
-                placeholder="Enter species"
-                className="w-full rounded-xl border px-4 py-3 text-sm"
+                placeholder="Enter species (formula/charge preferred)"
+                className="w-full rounded-xl border border-slate-900/15 bg-white/60 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-800/35"
               />
+              <p className="text-[11px] text-slate-700/65">
+                Use a chemical species. Names like "catalyst" may be rejected.
+              </p>
+              {isDevMode() && (
+                <p className="text-[11px] text-amber-800/80">(Dev mode enabled)</p>
+              )}
 
-              <Button variant="primary" onClick={submit} disabled={!ok}>
-                Confirm Catalyst
+              <Button variant="primary" onClick={submit} disabled={!readyToSubmit || !ans.trim()}>
+                {!introDone
+                  ? "Loading record…"
+                  : !readyToSubmit
+                  ? "Sealing certification…"
+                  : ok
+                  ? "Confirm Catalyst"
+                  : "Submit Attempt"}
               </Button>
             </div>
           </StoryCard>
