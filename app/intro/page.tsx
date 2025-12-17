@@ -24,12 +24,22 @@ export default function IntroPage() {
         title="Recovered Dossier"
         subtitle="Initial Access Granted — Archival Layer Unsealed"
       >
-        <Folio
-          label="ARCHIVAL NOTE"
-          title={STORY.intro.title}
-          note={STORY.intro.subtitle}
+        <div
+          style={{
+            backgroundImage: 'url(/images/parchment.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            borderRadius: '0.5rem',
+            padding: '1.5rem',
+            margin: '-1.5rem',
+          }}
         >
-          <div className="space-y-4 text-sm leading-relaxed text-slate-800/85">
+          <Folio
+            label="ARCHIVAL NOTE"
+            title={STORY.intro.title}
+            note={STORY.intro.subtitle}
+          >
+            <div className="space-y-4 text-sm leading-relaxed text-slate-800/85">
             <audio controls autoPlay loop className="w-full mb-4">
               <source src="/audio/intro.mp3" type="audio/mpeg" />
             </audio>
@@ -49,7 +59,8 @@ export default function IntroPage() {
               </Button>
             </div>
           </div>
-        </Folio>
+          </Folio>
+        </div>
       </BasicShell>
     </Guard>
     </SessionGuard>
