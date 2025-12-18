@@ -556,7 +556,11 @@ function HostContent() {
         <div className="flex gap-2">
           <Button
             variant="ghost"
-            onClick={() => {
+            onClick={async () => {
+              // Deactivate current session before switching
+              if (sessionCode && data.started) {
+                await handleDeactivate();
+              }
               setSessionCode(null);
               router.push("/host");
             }}
