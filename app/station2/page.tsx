@@ -168,17 +168,18 @@ export default function Station2Energetics() {
     if (!hasAK || !hasBT || !ratioStr) {
         if (!isTestInput) {
           setKeyError(
-        "Key format not recognized. Include A:K (kinetic), B:T (thermodynamic), and a ratio number (20–35). Example: A:K ratio~25 | B:T"
+        "Key format not recognized. Include A:K (kinetic), B:T (thermodynamic), and a ratio number (25, 50, or 100). Example: A:K ratio~25 | B:T"
       );
           return;
         }
     }
 
     const ratio = ratioStr ? parseInt(ratioStr, 10) : 0;
-    if (!Number.isFinite(ratio) || ratio < 20 || ratio > 35) {
+    const validRatios = [25, 50, 100];
+    if (!Number.isFinite(ratio) || !validRatios.includes(ratio)) {
         if (!isTestInput) {
           setKeyError(
-        "Ratio outside acceptable range. Use an integer between 20 and 35 (e.g., 25)."
+        "Ratio outside acceptable range. Use 25, 50, or 100 (e.g., 25)."
       );
           return;
         }
