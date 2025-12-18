@@ -89,11 +89,20 @@ export function setField<K extends keyof GameState>(key: K, value: GameState[K])
   
   // Sync to server if a session exists (client-side only)
   if (isBrowser()) {
+    // Never sync devMode across devices/sessions
+    const isDevFlag = key === "devMode";
+
     getSessionSync()
       .then(({ maybeSyncProgress, maybeSyncSnapshot }) => {
-        // Send the changed field for quick UI, and the full snapshot to avoid partial KV states
-        maybeSyncProgress(key as string, value);
-        try { maybeSyncSnapshot(next as any); } catch {}
+        if (!isDevFlag) {
+          maybeSyncProgress(key as string, value);
+        }
+
+        try {
+          // Strip devMode before sending full snapshot to avoid leaking developer bypass
+          const { devMode, ...rest } = next as any;
+          maybeSyncSnapshot(rest);
+        } catch {}
       })
       .catch(() => {
         // Silently ignore sync/import errors

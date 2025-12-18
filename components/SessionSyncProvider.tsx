@@ -24,6 +24,11 @@ export function SessionSyncProvider({ children }: { children: React.ReactNode })
         
         const json = await res.json();
         const serverData = json.data || {};
+
+        // Never import devMode from server — keep it local-only
+        if ("devMode" in serverData) {
+          delete (serverData as any).devMode;
+        }
         
         let hasChanges = false;
         

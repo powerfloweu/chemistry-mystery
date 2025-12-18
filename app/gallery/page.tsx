@@ -92,11 +92,11 @@ export default function Gallery() {
             {started && (
               <div className="space-y-3">
                 <Slideshow slides={activeSlides} intervalMs={3200} loop={false} onComplete={() => router.push("/reveal")} />
-                <audio controls autoPlay loop className="w-full mt-4">
+                <audio controls loop className="w-full mt-4">
                   <source src="/audio/Just say yes.mp3" type="audio/mpeg" />
                 </audio>
                 <p className="text-xs text-slate-700/70">
-                  When slideshow finishes, a hidden task shall unlock!
+                  Press play if you want music. When the slideshow finishes, a hidden task shall unlock!
                 </p>
               </div>
             )}
