@@ -101,14 +101,19 @@ export default function Station3Hub() {
   const excess = !!state.s3_excess;
   const allVerified = heat && pressure && excess;
 
-  // Dev mode: auto-certify all field sites and enable proceed
+  // Dev mode: auto-certify all field sites on mount
   useEffect(() => {
     if (isDevMode()) {
-      if (!heat) setField("s3_heat", true);
-      if (!pressure) setField("s3_pressure", true);
-      if (!excess) setField("s3_excess", true);
+      const currentState = readState();
+      if (!currentState.s3_heat || !currentState.s3_pressure || !currentState.s3_excess) {
+        setField("s3_heat", true);
+        setField("s3_pressure", true);
+        setField("s3_excess", true);
+        // Force re-read after setting
+        setSyncTrigger(prev => prev + 1);
+      }
     }
-  }, [heat, pressure, excess]);
+  }, []);
 
   useEffect(() => {
     if (!allVerified) {
