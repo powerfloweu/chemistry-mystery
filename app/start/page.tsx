@@ -274,6 +274,19 @@ function StartContent() {
           />
         </div>
 
+        {!started && safeName.length > 0 ? (
+          <div className="flex justify-end mt-1">
+            <Button
+              variant="ghost"
+              className="text-[11px] px-2 py-1"
+              onClick={() => setStarted(true)}
+              title="Use this if the seal tap doesn't respond"
+            >
+              Break seal (fallback)
+            </Button>
+          </div>
+        ) : null}
+
         {!started ? (
           <>
             <Folio
