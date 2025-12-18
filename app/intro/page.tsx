@@ -52,7 +52,7 @@ export default function IntroPage() {
                 controls
                 playsInline
                 loop
-                preload="auto"
+                preload="none"
                 className="w-full mb-4"
                 onCanPlay={() => setAudioReady(true)}
               >
