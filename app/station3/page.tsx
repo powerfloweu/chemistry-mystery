@@ -116,7 +116,12 @@ export default function Station3Hub() {
       setJustCompleted(false);
       return;
     }
-
+    // In dev mode, skip delay and proceed immediately
+    if (isDevMode()) {
+      setReadyToProceed(true);
+      setJustCompleted(false);
+      return;
+    }
     // When the last certification flips to true, add a short “seal sets” delay.
     setJustCompleted(true);
     const t1 = setTimeout(() => setReadyToProceed(true), 900);
