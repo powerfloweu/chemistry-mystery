@@ -12,7 +12,6 @@ import { STORY } from "../../lib/story";
 export default function IntroPage() {
   const router = useRouter();
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [audioReady, setAudioReady] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
 
   // Guard already blocks missing name, but keep this as belt+suspenders for routing edge cases
@@ -46,32 +45,26 @@ export default function IntroPage() {
             note={STORY.intro.subtitle}
           >
             <div className="space-y-4 text-sm leading-relaxed text-slate-800/85">
-            <div className="relative">
+            <div className="space-y-2">
               <audio
                 ref={audioRef}
                 controls
                 playsInline
                 loop
-                preload="metadata"
-                className="w-full mb-4"
-                onCanPlay={() => setAudioReady(true)}
+                preload="none"
+                className="w-full"
+                onPlay={() => setAudioPlaying(true)}
+                onPause={() => setAudioPlaying(false)}
               >
                 <source src="/audio/intro.mp3" type="audio/mpeg" />
               </audio>
-              {!audioPlaying && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="bg-slate-900/70 text-white text-xs px-3 py-1 rounded-full shadow">
-                    Tap play to enable audio
-                  </div>
-                </div>
-              )}
-              {!audioPlaying && audioReady && (
-                <div className="mt-2 flex justify-center">
-                  <Button variant="secondary" onClick={startAudio} className="text-xs py-1 px-3 h-auto">
-                    Enable audio
-                  </Button>
-                </div>
-              )}
+              <Button
+                variant="secondary"
+                onClick={startAudio}
+                className="w-full text-sm"
+              >
+                {audioPlaying ? "Music playing" : "Play intro music"}
+              </Button>
             </div>
             <Figure caption="Archival advisory: orbital symmetry constraints may apply">
               <div className="space-y-3">
