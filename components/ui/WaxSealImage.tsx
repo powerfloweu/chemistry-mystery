@@ -13,7 +13,8 @@ export function WaxSealImage({
   disabled = false,
   size = 180,
 }: WaxSealImageProps) {
-  const cacheBuster = `?v=${Date.now()}`;
+  // Use broken state in cache buster so image URL changes when seal breaks
+  const cacheBuster = `?v=${broken ? '1' : '0'}`;
   const src = broken
     ? `/wax-seal-new-broken.png${cacheBuster}`
     : `/wax-seal-new.png${cacheBuster}`;
