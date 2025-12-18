@@ -245,6 +245,9 @@ function StartContent() {
     const lower = entered.trim().toLowerCase();
     if (lower === "dev" || lower === "test") {
       setField("devMode", true as unknown as any);
+    } else {
+      // Explicitly clear devMode if name doesn't trigger it
+      setField("devMode", false);
     }
     router.push("/intro");
   };
