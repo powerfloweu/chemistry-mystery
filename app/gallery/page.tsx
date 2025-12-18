@@ -43,6 +43,9 @@ export default function Gallery() {
   const router = useRouter();
   const [started, setStarted] = useState(false);
   const [portraitSlides, setPortraitSlides] = useState<Slide[]>(slides);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audioReady, setAudioReady] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
 
 
   // Filter out horizontal images so only portrait shots remain
@@ -76,6 +79,18 @@ export default function Gallery() {
 
   const activeSlides = portraitSlides.length ? portraitSlides : slides;
 
+  const startAudio = async () => {
+    const el = audioRef.current;
+    if (!el) return;
+    try {
+      await el.play();
+      setAudioPlaying(true);
+    } catch (err) {
+      console.warn("Gallery audio blocked", err);
+      setAudioPlaying(false);
+    }
+  };
+
   return (
     <Guard require={["final_ok"]}>
       <BasicShell title="Evidence of bonding">
@@ -92,12 +107,32 @@ export default function Gallery() {
             {started && (
               <div className="space-y-3">
                 <Slideshow slides={activeSlides} intervalMs={3200} loop={false} onComplete={() => router.push("/reveal")} />
-                <audio controls loop className="w-full mt-4">
-                  <source src="/audio/Just say yes.mp3" type="audio/mpeg" />
-                </audio>
-                <p className="text-xs text-slate-700/70">
-                  Press play if you want music. When the slideshow finishes, a hidden task shall unlock!
-                </p>
+                <div className="mt-2 space-y-2">
+                  <audio
+                    ref={audioRef}
+                    controls
+                    loop
+                    className="w-full"
+                    onCanPlay={() => setAudioReady(true)}
+                    onPlay={() => setAudioPlaying(true)}
+                    onPause={() => setAudioPlaying(false)}
+                  >
+                    <source src="/audio/Just say yes.mp3" type="audio/mpeg" />
+                  </audio>
+                  <div className="flex items-center justify-between gap-3">
+                    <Button
+                      variant="secondary"
+                      onClick={startAudio}
+                      disabled={!audioReady}
+                      className="w-full"
+                    >
+                      {audioPlaying ? "Music playing" : audioReady ? "Play music" : "Loading audio"}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-slate-700/70">
+                    Start the music if you want accompaniment. When the slideshow finishes, a hidden task will unlock.
+                  </p>
+                </div>
               </div>
             )}
           </div>
