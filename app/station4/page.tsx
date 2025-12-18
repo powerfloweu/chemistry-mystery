@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Guard, BasicShell } from "../../components/Guard";
 import { validateCatalyst } from "../../lib/validate";
 import { setToken, setField, isDevMode, readState } from "@/lib/gameStore";
+import { SessionSyncProvider } from "@/components/SessionSyncProvider";
 import { ROUTES } from "../../lib/routes";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { LogLine } from "../../components/ui/LogLine";
@@ -70,8 +71,21 @@ function useTypewriter(lines: string[], enabled: boolean, speedMs = 18, pauseMs 
 export default function Station4Catalyst() {
   const router = useRouter();
   const [ans, setAns] = useState("");
-  const state = useMemo(() => readState(), []);
+  const [syncTrigger, setSyncTrigger] = useState(0);
+  
+  // Re-read state whenever sync triggers or component mounts
+  const state = useMemo(() => readState(), [syncTrigger]);
   const hintsUnlocked = !!state.hints_s4_unlocked;
+  
+  // Listen for session sync events
+  useEffect(() => {
+    const handleSync = () => {
+      setSyncTrigger(prev => prev + 1);
+    };
+    window.addEventListener('sessionSync', handleSync);
+    return () => window.removeEventListener('sessionSync', handleSync);
+  }, []);
+  
   const ok = useMemo(() => validateCatalyst(ans), [ans]);
 
   const lines = useMemo(
@@ -143,6 +157,7 @@ export default function Station4Catalyst() {
   };
 
   return (
+    <SessionSyncProvider>
     <Guard require={["token1", "token2"]}>
       <BasicShell title="Exploration" subtitle="Station 4 • Mechanistic Resolution">
         <div className="space-y-4">
@@ -278,5 +293,6 @@ export default function Station4Catalyst() {
         </div>
       </BasicShell>
     </Guard>
+    </SessionSyncProvider>
   );
 }

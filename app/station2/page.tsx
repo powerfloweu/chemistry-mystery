@@ -4,6 +4,7 @@ import { Guard, BasicShell } from "@/components/Guard";
 import Folio from "@/components/ui/Folio";
 import { Button } from "@/components/ui/Button";
 import { isDevMode, readState } from "@/lib/gameStore";
+import { SessionSyncProvider } from "@/components/SessionSyncProvider";
 import { ReactionCoordinate } from "@/components/diagrams/ReactionCoordinate";
 import { setField } from "@/lib/gameStore";
 import { useRouter } from "next/navigation";
@@ -77,8 +78,20 @@ export default function Station2Energetics() {
   const [archiveKey, setArchiveKey] = useState("");
   const [keyVerified, setKeyVerified] = useState(false);
   const [keyError, setKeyError] = useState<string | null>(null);
-  const state = useMemo(() => readState(), []);
+  const [syncTrigger, setSyncTrigger] = useState(0);
+  
+  // Re-read state whenever sync triggers or component mounts
+  const state = useMemo(() => readState(), [syncTrigger]);
   const hintsUnlocked = !!state.hints_s2_unlocked;
+  
+  // Listen for session sync events
+  useEffect(() => {
+    const handleSync = () => {
+      setSyncTrigger(prev => prev + 1);
+    };
+    window.addEventListener('sessionSync', handleSync);
+    return () => window.removeEventListener('sessionSync', handleSync);
+  }, []);
 
   const introLines = useMemo(
     () => [
@@ -194,6 +207,7 @@ export default function Station2Energetics() {
   };
 
   return (
+    <SessionSyncProvider>
     <Guard require={["token1"]}>
       <BasicShell
         title="Energetics"
@@ -394,5 +408,6 @@ export default function Station2Energetics() {
         </div>
       </BasicShell>
     </Guard>
+    </SessionSyncProvider>
   );
 }

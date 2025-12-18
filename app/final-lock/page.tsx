@@ -7,6 +7,7 @@ import { ROUTES } from "@/lib/routes";
 import Folio from "@/components/ui/Folio";
 import { Button } from "@/components/ui/Button";
 import { readState, setField, isDevMode } from "@/lib/gameStore";
+import { SessionSyncProvider } from "@/components/SessionSyncProvider";
 
 function useTypewriter(lines: string[], enabled: boolean, speedMs = 18, pauseMs = 420) {
   const [out, setOut] = useState<string[]>([]);
@@ -80,9 +81,21 @@ function normToken(s: string): string {
 export default function FinalLock() {
   const router = useRouter();
 
-  const st = useMemo(() => readState(), []);
+  const [syncTrigger, setSyncTrigger] = useState(0);
+  
+  // Re-read state whenever sync triggers or component mounts
+  const st = useMemo(() => readState(), [syncTrigger]);
   const player = (st.playerName || "Researcher").toString();
   const hintsUnlocked = !!st.hints_final_unlocked;
+  
+  // Listen for session sync events
+  useEffect(() => {
+    const handleSync = () => {
+      setSyncTrigger(prev => prev + 1);
+    };
+    window.addEventListener('sessionSync', handleSync);
+    return () => window.removeEventListener('sessionSync', handleSync);
+  }, []);
 
   const [a, setA] = useState("");
   const [b, setB] = useState("");
@@ -153,6 +166,7 @@ export default function FinalLock() {
   };
 
   return (
+    <SessionSyncProvider>
     <Guard
       require={[
         "s1_integralsOk",
@@ -279,5 +293,6 @@ export default function FinalLock() {
         </div>
       </BasicShell>
     </Guard>
+    </SessionSyncProvider>
   );
 }

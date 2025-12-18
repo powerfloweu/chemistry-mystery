@@ -6,6 +6,7 @@ import { BasicShell } from "@/components/Guard";
 import Folio from "@/components/ui/Folio";
 import { Button } from "@/components/ui/Button";
 import { setField, isDevMode, readState } from "@/lib/gameStore";
+import { SessionSyncProvider } from "@/components/SessionSyncProvider";
 
 function useTypewriter(
   lines: string[],
@@ -75,8 +76,20 @@ export default function Station1() {
   const [boot, setBoot] = useState(true);
   const [answer, setAnswer] = useState("");
   const [verified, setVerified] = useState(false);
-  const state = useMemo(() => readState(), []);
+  const [syncTrigger, setSyncTrigger] = useState(0);
+  
+  // Re-read state whenever sync triggers or component mounts
+  const state = useMemo(() => readState(), [syncTrigger]);
   const hintsUnlocked = !!state.hints_s1_unlocked;
+  
+  // Listen for session sync events
+  useEffect(() => {
+    const handleSync = () => {
+      setSyncTrigger(prev => prev + 1);
+    };
+    window.addEventListener('sessionSync', handleSync);
+    return () => window.removeEventListener('sessionSync', handleSync);
+  }, []);
 
   const lines = useMemo(
     () => [
@@ -176,11 +189,12 @@ export default function Station1() {
   };
 
   return (
-    <BasicShell
-      title="NMR"
-      subtitle="Field Notes Interface — Station 1"
-    >
-      <div className="space-y-6">
+    <SessionSyncProvider>
+      <BasicShell
+        title="NMR"
+        subtitle="Field Notes Interface — Station 1"
+      >
+        <div className="space-y-6">
         {/* --- Boot / Typewriter --- */}
         <Folio
           label="ARCHIVE BOOT"
@@ -385,6 +399,7 @@ export default function Station1() {
           </Button>
         </div>
       </div>
-    </BasicShell>
+      </BasicShell>
+    </SessionSyncProvider>
   );
 }
