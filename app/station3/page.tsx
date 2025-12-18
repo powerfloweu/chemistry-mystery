@@ -133,7 +133,8 @@ export default function Station3Hub() {
   }, [allVerified]);
 
   const proceedToStation4 = () => {
-    if (!readyToProceed) return;
+    // Allow proceed if all verified, don't wait for animation
+    if (!allVerified) return;
     setField("s3_confirmed", true);
     (setField as unknown as (k: string, v: unknown) => void)(
       "station3_field_verification",
@@ -245,14 +246,10 @@ export default function Station3Hub() {
           <Button
             variant="primary"
             onClick={proceedToStation4}
-            disabled={!readyToProceed}
+            disabled={!allVerified}
             className="w-full"
           >
-            {readyToProceed
-              ? "Continue to Station 4"
-              : allVerified
-              ? "Sealing certification…"
-              : "Verification incomplete"}
+            {allVerified ? "Continue to Station 4" : "Verification incomplete"}
           </Button>
         </div>
       </BasicShell>
