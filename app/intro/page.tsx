@@ -24,11 +24,12 @@ export default function IntroPage() {
     const el = audioRef.current;
     if (!el) return;
     try {
-      el.muted = false;
       await el.play();
+      el.muted = false;
       setAudioPlaying(true);
     } catch (err) {
       console.warn("Audio play blocked", err);
+      setAudioPlaying(false);
     }
   };
 
@@ -49,13 +50,11 @@ export default function IntroPage() {
               <audio
                 ref={audioRef}
                 controls
-                autoPlay
-                muted
                 playsInline
                 loop
+                preload="auto"
                 className="w-full mb-4"
                 onCanPlay={() => setAudioReady(true)}
-                onPlay={() => setAudioPlaying(true)}
               >
                 <source src="/audio/intro.mp3" type="audio/mpeg" />
               </audio>
