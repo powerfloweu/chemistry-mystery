@@ -495,7 +495,7 @@ function HostContent() {
               <div className="bg-emerald-50 border border-emerald-200 rounded p-3">
                 <p className="text-xs font-semibold text-emerald-900 mb-2">Station 2 – Energetics Key</p>
                 <p className="text-xs text-emerald-800 font-mono">A:K ratio~25 | B:T</p>
-                <p className="text-xs text-emerald-700 mt-1">Format: A:K (kinetic), B:T (thermodynamic), ratio 20-35</p>
+                <p className="text-xs text-emerald-700 mt-1">Format: A:K (kinetic), B:T (thermodynamic), ratio 25, 50, or 100</p>
               </div>
 
               <div className="bg-emerald-50 border border-emerald-200 rounded p-3">
