@@ -75,13 +75,14 @@ function SessionInvitationGate({ session, onReady }: { session: string; onReady:
 
   useEffect(() => {
     let pollInterval: ReturnType<typeof setInterval>;
+    let mounted = true;
 
     const poll = async () => {
       try {
         const res = await fetch(`/api/session/${encodeURIComponent(session)}`);
         if (!res.ok) {
           if (res.status !== 503) {
-            setError(`Error: ${res.status}`);
+            if (mounted) setError(`Error: ${res.status}`);
           }
           return;
         }
@@ -91,19 +92,24 @@ function SessionInvitationGate({ session, onReady }: { session: string; onReady:
           if (pollInterval) clearInterval(pollInterval);
           // Store session in sessionStorage for other pages to check
           setActiveSession(session);
-          setChecking(false);
-          onReady();
+          if (mounted) {
+            setChecking(false);
+            onReady();
+          }
         }
       } catch (err) {
         console.warn("Polling failed:", err);
-        setError("Connection error");
+        if (mounted) setError("Connection error");
       }
     };
 
     poll(); // Poll immediately
-    pollInterval = setInterval(poll, 3000);
+    pollInterval = setInterval(poll, 2000); // Poll every 2 seconds for faster response
 
-    return () => clearInterval(pollInterval);
+    return () => {
+      mounted = false;
+      if (pollInterval) clearInterval(pollInterval);
+    };
   }, [session, onReady]);
 
   if (!checking) return null;
